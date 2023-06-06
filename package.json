@@ -1,10 +1,10 @@
 {
-  "name": "venecodollarbot-ts",
-  "version": "1.1.0",
+  "name": "venecodollarbot",
+  "version": "1.0.0",
   "description": "Telegram Bot Venecodollar",
   "main": "src/index.ts",
   "author": "gustavoerivero",
-  "homepage": "https://github.com/gustavoerivero/telegram-bot-vercel-boilerplate",
+  "homepage": "https://github.com/gustavoerivero/venecodollarbot",
   "dependencies": {
     "@vercel/node": "^2.10.3",
     "axios": "^1.4.0",
