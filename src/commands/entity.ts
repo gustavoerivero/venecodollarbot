@@ -1,8 +1,9 @@
 import { Context } from 'telegraf'
 import createDebug from 'debug'
 import DollarAPI from '../api/dollar/DollarAPI'
+import { formatEntityMessage } from '../utils'
 
-const debug = createDebug('bot:about_command')
+const debug = createDebug('bot:entity_command')
 
 export const entity = async (ctx: Context, entityName: string) => {
 
@@ -20,13 +21,8 @@ export const entity = async (ctx: Context, entityName: string) => {
       const { entities, average } = data
 
       for (const entity of entities) {
-        const name = entity.info.title.split('@')
-        const title = name[1] ? name[1] : name[0]
-        const dollar = entity.info.dollar
-        const updatedDate = entity.info.updatedDate
-
-        if (dollar > 0) {
-          message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\n`
+        if (entity.info.dollar > 0) {
+          message += formatEntityMessage(entity)
         }
 
       }
@@ -55,7 +51,7 @@ export const entity = async (ctx: Context, entityName: string) => {
     const username = `${ctx.message?.from.first_name} ${ctx.message?.from.last_name}`
     const message = `${username} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`
 
-    await ctx.replyWithMarkdownV2(entityName, {
+    await ctx.replyWithMarkdownV2(message, {
       parse_mode: 'Markdown'
     })
   }

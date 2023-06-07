@@ -3,11 +3,11 @@ import { Telegraf } from 'telegraf'
 import { about, dollar, entity, help, start, unknown } from './commands'
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { development, production } from './core'
+import { calculate } from './commands/calculate'
+import { commandHelp } from './commands/commandHelp'
 
 const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
 const ENVIRONMENT = process.env.NODE_ENV ?? ''
-
-const botName = process.env.BOT_NAME ?? ''
 
 const bot = new Telegraf(BOT_TOKEN)
 
@@ -19,14 +19,45 @@ bot.command('help', help())
 bot.command('dolar', dollar())
 bot.on('text', async ctx => {
 
-  const text = ctx.message.text.split(' ')
+  const { text } = ctx.message
+  const [command, param1, param2, param3] = text.split(' ')
 
-  if (text[1] && (text[0] === '/fuente' || text[0] === `/fuente${botName}`)) {
-    await entity(ctx, text[1])
-  }
+  if (param1) {
+    if (command.startsWith('/fuente')) {
 
-  else {
-    await unknown(ctx, ctx.message.text)
+      await entity(ctx, param1)
+
+    } else if (
+      command.startsWith('/calcular') &&
+      (param1 === '$' || param1.toLowerCase() === 'bs')
+      && param2
+    ) {
+
+      try {
+        const amount = Number(param2)
+        const toDollar = param1 === 'bs'
+        const entity = param3 ?? ''
+
+        await calculate(ctx, amount, toDollar, entity)
+
+      } catch (error) {
+        await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
+      }
+
+    } else if (command.startsWith('/help')) {
+
+      await commandHelp(ctx, param1)
+
+    } else {
+
+      await unknown(ctx, text)
+
+    }
+
+  } else {
+
+    await unknown(ctx, text)
+
   }
 
 })

@@ -21,6 +21,16 @@ class DollarAPI {
     return response
   }
 
+  public async toDollar(bs: number = 0, entity: string = ''): Promise<AxiosResponse<TResponseData>> {
+    const response = await http.get(`${this.BASE_URL}/toDollar?bs=${bs}&entity=${entity}`)
+    return response
+  }
+
+  public async toBs(dollar: number = 0, entity: string = ''): Promise<AxiosResponse<TResponseData>> {
+    const response = await http.get(`${this.BASE_URL}/toBs?dollar=${dollar}&entity=${entity}`)
+    return response
+  }
+
 }
 
 export default DollarAPI

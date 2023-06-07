@@ -1,6 +1,8 @@
 export type TEntity = {
   entity: string,
   info: TEntityInfo
+  dollarCalculated?: number
+  bolivarCalculated?: number
 }
 
 export type TEntityInfo = {
@@ -17,5 +19,7 @@ export type TResponseData = {
     entities?: TEntity[]
     entity?: string,
     info?: TEntityInfo
+    dollarCalculated?: number
+    bolivarCalculated?: number
   }
 }
