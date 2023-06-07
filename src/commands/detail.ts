@@ -13,7 +13,7 @@ export const detail = async (ctx: Context, command?: string) => {
     const commandFound = commands.find(item => item.title === command)
 
     if (commandFound) {
-      message = `*${commandFound.title}*\n\n- Comando: ${commandFound.command}\n- Descripción: ${commandFound.description}\n- Uso: ${commandFound.example}`
+      message = `*Comando buscado "${commandFound.title}"*\n_- Comando:_ ${commandFound.command}\n_- Descripción:_ ${commandFound.description}\n_- Uso:_ ${commandFound.example}`
     } else {
       message = 'Lo lamento, no reconozco ese comando 😓.\n\nSi quieres saber de lo que soy capaz, por favor, utiliza /help para conocer los comandos disponibles.'
     }
