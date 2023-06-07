@@ -11,7 +11,7 @@ export const calculate = async (ctx: Context, amount: number, toDollar: boolean,
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    let message = `*Cálculo para el monto "${toDollar ? '$ ' : 'Bs. '} ${amount}":*\n`
+    let message = `*Cálculo para el monto "${toDollar ? 'Bs ' : '$ '} ${amount}" en ${toDollar ? 'dólares' : 'bolívares'}:*\n\n`
 
     const response = toDollar ? await dollarAPI.toDollar(amount, entity) : await dollarAPI.toBs(amount, entity)
     const data = response.data.Data
