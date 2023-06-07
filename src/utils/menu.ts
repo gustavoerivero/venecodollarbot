@@ -44,13 +44,13 @@ export const commands = [
   {
     title: 'avisos',
     command: '/avisos',
-    description: 'Activa los avisos diarios del cambio del dólar.',
+    description: '(Actualmente no disponible) Activa los avisos diarios del cambio del dólar.',
     example: 'Utiliza el comando /avisos para que el bot te envíe diariamente dos mensajes con el reporte del dólar. Un mensaje a las 09:00 AM y otro a la 01:00 PM.'
   },
   {
     title: 'remover',
     command: '/remover',
-    description: 'Desactiva los avisos diarios del cambio del dólar.',
+    description: '(Actualmente no disponible) Desactiva los avisos diarios del cambio del dólar.',
     example: 'Utiliza el comando /remover para que el bot deje de enviar diaramente los mensajes con el reporte del dólar.'
   }
 ]

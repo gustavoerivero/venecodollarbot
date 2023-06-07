@@ -1,6 +1,6 @@
 import { Telegraf } from 'telegraf'
 
-import { about, dollar, entity, help, start, calculate, detail, unknown } from './commands'
+import { about, dollar, entity, help, start, calculate, detail, unknown, alert, remove } from './commands'
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { development, production } from './core'
 
@@ -16,13 +16,16 @@ bot.command('help', help())
 
 bot.command('dolar', dollar())
 
+bot.command('avisos', alert())
+bot.command('remover', remove())
+
 bot.on('text', async ctx => {
 
   const { text } = ctx.message
   const [command, param1, param2, param3] = text.split(' ')
 
   if (param1) {
-    
+
     if (command.startsWith('/fuente')) {
 
       await entity(ctx, param1)
