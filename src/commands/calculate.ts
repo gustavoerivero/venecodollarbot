@@ -5,7 +5,7 @@ import { deleteAtSign, formatCalculateMessage, formatEntityMessage } from '../ut
 
 const debug = createDebug('bot:calculate_command')
 
-export const calculate = async (ctx: Context, amount: number, toDollar: boolean, entity: string) => {
+export const calculate = async (ctx: Context, amount: number = 0, toDollar: boolean = false, entity: string = '') => {
 
   try {
 

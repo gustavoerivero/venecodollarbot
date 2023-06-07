@@ -17,7 +17,7 @@ bot.command('help', help())
 bot.command('dolar', dollar())
 
 bot.on('text', async ctx => {
-  
+
   const { text } = ctx.message
   const [command, param1, param2, param3] = text.split(' ')
 
@@ -35,7 +35,7 @@ bot.on('text', async ctx => {
       try {
 
         const amount = Number(param2)
-        const toDollar = param1 === 'bs'
+        const toDollar = param1.toLowerCase() === 'bs'
         const entity = param3 ?? ''
         await calculate(ctx, amount, toDollar, entity)
 
