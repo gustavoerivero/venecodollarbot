@@ -1,10 +1,13 @@
 {
   "name": "venecodollarbot",
   "version": "1.0.0",
-  "description": "Telegram Bot Venecodollar",
+  "description": "Telegram bot to check dollar exchange rates and perform real-time conversion calculations between bolívars and dollars.",
   "main": "src/index.ts",
   "author": "gustavoerivero",
-  "homepage": "https://github.com/gustavoerivero/venecodollarbot",
+  "repository": {
+    "url": "https://github.com/gustavoerivero/venecodollarbot"
+  },
+  "homepage": "https://t.me/venecodollarbot",
   "dependencies": {
     "@vercel/node": "^2.10.3",
     "axios": "^1.4.0",

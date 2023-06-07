@@ -38,8 +38,8 @@ export const commands = [
   {
     title: 'calcular',
     command: '/calcular <moneda> <monto> <fuente>',
-    description: 'Calcula el valor de un monto indicado según la moneda que especifíques. Puedes suministrar la fuente que desees que el bot utilice para hacer el cálculo, de lo contrario, se hará el cálculo según todas las fuentes.',
-    example: 'Utiliza el comando /calcular <moneda> <monto> <fuente> y el bot te responderá con un mensaje que contendrá el cálculo realizado. El bot hará el cálculo para la moneda distinta, es decir, si se indica "/calcular Bs 1080", el bot hará el cálculo del monto en dólares. Si se suministra la fuente a la que se quiere realizar el cálculo, se filtrará y solo mostrarán los cálculos según las fuentes que coincidan con lo que desea el usuario, por ejemplo "/calcular $ 50 Paralelo".'
+    description: 'Calcula el valor equivalente de un monto ingresado basado en la conversión Dólar <-> Bolívar. Las monedas disponibles son bolívares (Bs) y dólares ($). Si proporcionas una fuente específica, el bot utilizará solo esa fuente para realizar el cálculo, en caso contrario se utilizarán todas las fuentes disponibles. Por ejemplo, "/cacular $ 1080 BCV", devolverá el valor equivalente en bolívares BCV. "/calcular Bs 1080", para obtener el valor equivalente en dólares según todas las fuentes.',
+    example: 'Utiliza el comando /calcular <moneda> <monto> <fuente> y el bot te responderá con el cálculo correspondiente. El bot realizará el cálculo en la moneda opuesta a la indicada. Por ejemplo, si escribes "/calcular $ 50", el bot te dará el valor en bolívares de $50. Si proporcionas una fuente específica, solo se mostrarán los cálculos basados en esas fuentes. Siguiendo el ejemplo anterior, "/calcular $ 50 Paralelo" filtrará los resultados a la fuente "Paralelo" para calcular el valor en bolívares de $50.'
   },
   {
     title: 'avisos',
