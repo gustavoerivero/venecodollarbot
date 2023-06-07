@@ -17,6 +17,7 @@ bot.command('help', help())
 bot.command('dolar', dollar())
 
 bot.on('text', async ctx => {
+  
   const { text } = ctx.message
   const [command, param1, param2, param3] = text.split(' ')
 
@@ -58,7 +59,7 @@ bot.on('text', async ctx => {
   } else {
 
     await unknown(ctx, text)
-    
+
   }
 })
 
