@@ -11,7 +11,7 @@ export const entity = async (ctx: Context, entityName: string) => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    let message = `*Valores del dólar para la entidad "${entityName}":*\n`
+    let message = `*Valores del dólar para la entidad "${entityName}":*\n\n`
 
     const response = await dollarAPI.getEntity(entityName)
     const data = response.data.Data
