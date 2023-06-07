@@ -15,27 +15,27 @@ bot.command('start', start())
 bot.command('help', help())
 
 bot.command('dolar', dollar())
-bot.on('text', async ctx => {
 
+bot.on('text', async ctx => {
   const { text } = ctx.message
   const [command, param1, param2, param3] = text.split(' ')
 
   if (param1) {
+    
     if (command.startsWith('/fuente')) {
 
       await entity(ctx, param1)
 
-    } else if (
-      command.startsWith('/calcular') &&
-      (param1 === '$' || param1.toLowerCase() === 'bs')
-      && param2
+    } else if (command.startsWith('/calcular') &&
+      (param1 === '$' || param1.toLowerCase() === 'bs') &&
+      param2
     ) {
 
       try {
+
         const amount = Number(param2)
         const toDollar = param1 === 'bs'
         const entity = param3 ?? ''
-
         await calculate(ctx, amount, toDollar, entity)
 
       } catch (error) {
@@ -51,18 +51,17 @@ bot.on('text', async ctx => {
       await unknown(ctx, text)
 
     }
+  } else if (command.startsWith('/detalle')) {
+
+    await detail(ctx)
 
   } else {
 
-    if (command.startsWith('/detalle')) {
-      await detail(ctx)
-    } else {
-      await unknown(ctx, text)
-    }
-
+    await unknown(ctx, text)
+    
   }
-
 })
+
 
 //prod mode (Vercel)
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
