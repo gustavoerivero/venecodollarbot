@@ -13,7 +13,7 @@ export const detail = async (ctx: Context, command?: string) => {
     const commandFound = commands.find(item => item.title === command)
 
     if (commandFound) {
-      message = `*Comando buscado "${commandFound.title}"*\n_- Comando:_ ${commandFound.command}\n_- Descripción:_ ${commandFound.description}\n_- Uso:_ ${commandFound.example}`
+      message = `*Comando buscado "${commandFound.title}"*\n_- Comando:_ ${commandFound.command}\n_- Descripción:_ ${commandFound.description}\n_- Uso:_ ${commandFound.example}\n`
     } else {
       message = 'Lo lamento, no reconozco ese comando 😓.\n\nSi quieres saber de lo que soy capaz, por favor, utiliza /help para conocer los comandos disponibles.'
     }
@@ -23,7 +23,7 @@ export const detail = async (ctx: Context, command?: string) => {
     message = '*Comandos disponibles*:\n\n'
 
     commands.forEach(item => {
-      message += `*${item.title}*\n\n- Comando: ${item.command}\n- Descripción: ${item.description}\n- Uso: ${item.example}`
+      message += `*${item.title}*\n\n- Comando: ${item.command}\n- Descripción: ${item.description}\n- Uso: ${item.example}\n`
     })
 
   }
