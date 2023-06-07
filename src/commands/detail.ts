@@ -23,7 +23,7 @@ export const detail = async (ctx: Context, command?: string) => {
     message = '*Comandos disponibles*:\n\n'
 
     commands.forEach(item => {
-      message += `*${item.title}*\n\n- Comando: ${item.command}\n- Descripción: ${item.description}\n- Uso: ${item.example}\n`
+      message += `*${item.title}*\n- Comando: ${item.command}\n- Descripción: ${item.description}\n- Uso: ${item.example}\n`
     })
 
   }
