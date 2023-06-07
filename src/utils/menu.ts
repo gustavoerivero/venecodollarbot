@@ -56,7 +56,7 @@ export const commands = [
 ]
 
 export const menu = (): string => {
-  let menuString = '*Comandos disponibles:*\n'
+  let menuString = '*Comandos disponibles:*\n\n'
 
   commands.forEach(item => {
     menuString += `${item.command} - ${item.description}\n`

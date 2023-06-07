@@ -27,7 +27,7 @@ export const calculate = async (ctx: Context, amount: number = 0, toDollar: bool
 
       }
 
-      message += `\n*Promedio calculado: Bs. ${average}*`
+      message += `\n*Promedio calculado: ${toDollar ? '$' : 'Bs.'} ${average}*`
 
     } else {
 
@@ -37,7 +37,7 @@ export const calculate = async (ctx: Context, amount: number = 0, toDollar: bool
 
       
       const calculate = formatCalculateMessage(toDollar, data?.dollarCalculated, data?.bolivarCalculated)
-      message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\n${calculate}\n`
+      message += `- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\n${calculate}\n`
 
     }
 

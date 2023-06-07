@@ -9,7 +9,7 @@ export const deleteAtSign = (string: string): string | null => {
 }
 
 export const formatCalculateMessage = (toDollar: boolean, dollar?: number, bolivar?: number): string => {
-  return toDollar ? `*Dólares calculados: $ ${dollar}*\n` : `*Bolívares calculados: Bs. ${bolivar}*\n\n`
+  return toDollar ? `*Dólares calculados: $ ${dollar}*\n\n` : `*Bolívares calculados: Bs. ${bolivar}*\n\n`
 }
 
 export const formatEntityMessage = (entity: TEntity, calculate: boolean = false, toDollar: boolean = false): string => {
