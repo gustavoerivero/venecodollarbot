@@ -1,10 +1,8 @@
 import { Telegraf } from 'telegraf'
 
-import { about, dollar, entity, help, start, unknown } from './commands'
+import { about, dollar, entity, help, start, calculate, detail, unknown } from './commands'
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { development, production } from './core'
-import { calculate } from './commands/calculate'
-import { commandHelp } from './commands/commandHelp'
 
 const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
 const ENVIRONMENT = process.env.NODE_ENV ?? ''
@@ -44,9 +42,9 @@ bot.on('text', async ctx => {
         await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
       }
 
-    } else if (command.startsWith('/help')) {
+    } else if (command.startsWith('/detalle')) {
 
-      await commandHelp(ctx, param1)
+      await detail(ctx, param1)
 
     } else {
 
@@ -56,7 +54,11 @@ bot.on('text', async ctx => {
 
   } else {
 
-    await unknown(ctx, text)
+    if (command.startsWith('/detalle')) {
+      await detail(ctx)
+    } else {
+      await unknown(ctx, text)
+    }
 
   }
 

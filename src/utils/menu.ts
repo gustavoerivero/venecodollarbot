@@ -7,9 +7,15 @@ export const commands = [
   },
   {
     title: 'help',
-    command: '/help <comando>',
-    description: 'Conoce los comandos disponibles u obtén información detallada de un comando específico.',
-    example: 'Puedes utilizar únicamente el comando /help para conocer los comandos disponibles o utilizar el comando /help seguido del comando que deseas obtener mayor información. Por ejemplo "/help dolar".'
+    command: '/help',
+    description: 'Conoce los comandos disponibles.',
+    example: 'Puedes utilizar únicamente el comando /help para conocer los comandos disponibles.'
+  },
+  {
+    title: 'detalle',
+    command: '/detalle <comando>',
+    description: 'Obtén información detallada de un comando específico.',
+    example: 'Puedes utilizar el comando /detalle seguido del comando que deseas obtener mayor información. Por ejemplo "/detalle dolar".'
   },
   {
     title: 'about',
