@@ -68,5 +68,6 @@ bot.on('text', async ctx => {
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   await production(req, res, bot)
 }
+
 //dev mode
 ENVIRONMENT !== 'production' && development(bot)
