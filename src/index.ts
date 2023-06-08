@@ -1,13 +1,16 @@
 import { Telegraf } from 'telegraf'
+import { VercelRequest, VercelResponse } from '@vercel/node'
 
 import { about, dollar, entity, help, start, calculate, detail, unknown, alert, remove } from './commands'
-import { VercelRequest, VercelResponse } from '@vercel/node'
 import { development, production } from './core'
+import { scheduleCronJob } from './services'
 
 const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
 const ENVIRONMENT = process.env.NODE_ENV ?? ''
 
 const bot = new Telegraf(BOT_TOKEN)
+
+let activeUsers: number[] = []
 
 bot.command('about', about())
 
@@ -15,9 +18,8 @@ bot.command('start', start())
 bot.command('help', help())
 
 bot.command('dolar', dollar())
-
-bot.command('avisos', alert())
-bot.command('remover', remove())
+bot.command('avisos', ctx => alert(ctx, activeUsers))
+bot.command('remover', ctx => remove(ctx, activeUsers))
 
 bot.on('text', async ctx => {
 
@@ -66,6 +68,7 @@ bot.on('text', async ctx => {
   }
 })
 
+scheduleCronJob(bot, activeUsers)
 
 //prod mode (Vercel)
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
