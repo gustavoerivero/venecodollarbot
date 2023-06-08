@@ -4,6 +4,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import { about, dollar, entity, help, start, calculate, detail, unknown, alert, remove } from './commands'
 import { development, production } from './core'
 import { scheduleCronJob } from './services'
+import { init } from './db'
 
 const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
 const ENVIRONMENT = process.env.NODE_ENV ?? ''
@@ -18,8 +19,8 @@ bot.command('start', start())
 bot.command('help', help())
 
 bot.command('dolar', dollar())
-bot.command('avisos', ctx => alert(ctx, activeUsers))
-bot.command('remover', ctx => remove(ctx, activeUsers))
+bot.command('avisos', ctx => alert(ctx))
+bot.command('remover', ctx => remove(ctx))
 
 bot.on('text', async ctx => {
 
@@ -68,6 +69,10 @@ bot.on('text', async ctx => {
   }
 })
 
+init()
+  .catch(err => 
+    console.log(`Init database error:`, err))
+
 scheduleCronJob(bot, activeUsers)
 
 //prod mode (Vercel)
@@ -76,4 +81,4 @@ export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
 }
 
 //dev mode
-ENVIRONMENT !== 'production' && development(bot)
+ENVIRONMENT !== 'production' && development(bot).catch(err => console.log(`Dev mode error: `, err))

@@ -10,7 +10,7 @@ export const timezone = process.env.TIMEZONE ?? ''
 const debug = createDebug('bot:cronjob')
 
 export const sendDailyMessages = (bot: Telegraf<Context<Update>>, activeUsers: number[]) => {
-  
+
   debug('Triggered "cronjob"')
 
   getDollarValues()
@@ -25,7 +25,7 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>, activeUsers: n
     .catch(err => {
       debug(`Error: ${err}`)
     })
-  
+
 }
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>, activeUsers: number[]) => {

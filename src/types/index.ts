@@ -1,5 +1,5 @@
 export type TEntity = {
-  entity: string,
+  entity: string
   info: TEntityInfo
   dollarCalculated?: number
   bolivarCalculated?: number
@@ -12,7 +12,7 @@ export type TEntityInfo = {
 }
 
 export type TResponseData = {
-  OK: number,
+  OK: number
   Data: {
     date?: string
     average?: number
