@@ -111,5 +111,6 @@ export const update = async (
   } catch (error) {
     console.log(`${tableName} update error: `, error)
     debug(`${tableName} update error: ${error}`)
+    return false
   }
 }

@@ -22,13 +22,13 @@ export const remove = async (ctx: Context) => {
     console.log(user)
 
     if (user && user.length > 0) {
-      
+
       const response = await update('Users', ['chatID', 'alertStatus'], [chatID, 'false'], `chatID = '${chatID}'`)
       if (response) {
         message = `¡Enhorabuena ${name}! Los avisos diarios han sido removidos.`
+      } else {
+        message = `Lo lamento ${name}, no pudimos remover los avisos diarios.`
       }
-      message = `Lo lamento ${name}, no pudimos remover los avisos diarios.`
-      
 
     } else {
       message = `No te preocupes ${username}, los avisos diarios ya se encuentran desactivados.`
