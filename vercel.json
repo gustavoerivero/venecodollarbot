@@ -11,17 +11,6 @@
       "destination": "api/index.ts"
     }
   ],
-  "redirects": [
-    {
-      "source": "/api/cron",
-      "destination": "/api/cron"
-    },
-    {
-      "source": "/",
-      "destination": "/api",
-      "permanent": false
-    }
-  ],
   "crons": [
     {
       "path": "/api/cron",
