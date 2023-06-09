@@ -32,6 +32,11 @@ const production = async (
 
   if (req.method === 'POST') {
     await bot.handleUpdate(req.body as unknown as Update, res)
+    const url = req.url
+    
+    if (url === '/api/cron') {
+      sendDailyMessages(bot)
+    }
   } else {
     let message = ''
     const url = req.url
