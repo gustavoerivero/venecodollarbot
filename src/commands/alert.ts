@@ -8,9 +8,9 @@ export const alert = async (ctx: Context) => {
 
   const chatID = ctx.chat?.id.toString()
   const userID = ctx.message?.from.id.toString()
-  const firstName = ctx.message?.from.first_name
-  const lastName = ctx.message?.from.last_name
-  const username = ctx.message?.from.username
+  const firstName = ctx.message?.from.first_name ?? ''
+  const lastName = ctx.message?.from.last_name ?? null
+  const username = ctx.message?.from.username ?? null
 
   const name = `${firstName} ${lastName}`
 

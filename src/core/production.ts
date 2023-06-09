@@ -2,8 +2,6 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import createDebug from 'debug'
 import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
-import { cronVercel } from '..'
-import { sendDailyMessages } from '../services'
 
 const debug = createDebug('bot:dev')
 
@@ -32,21 +30,8 @@ const production = async (
 
   if (req.method === 'POST') {
     await bot.handleUpdate(req.body as unknown as Update, res)
-    const url = req.url
-
-    if (url === '/api/cron') {
-      sendDailyMessages(bot)
-    }
   } else {
-    let message = ''
-    const url = req.url
-
-    if (url === '/api/cron') {
-      sendDailyMessages(bot)
-    } else {
-      res.status(200).json(`Listening to bot events...${message}`)
-    }
-
+      res.status(200).json(`Listening to bot events...`)
   }
   debug(`starting webhook on port: ${PORT}`)
 }

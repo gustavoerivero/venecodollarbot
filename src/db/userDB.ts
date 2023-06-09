@@ -6,16 +6,16 @@ const debug = createDebug('database:user')
 
 export class UserDB {
 
-  private id?: number | null | undefined
-  private firstName: string | null | undefined
-  private lastName: string | null | undefined
-  private username: string | null | undefined
-  private userID: string | null | undefined
-  private chatID: string | null | undefined
-  private alertStatus: boolean | undefined
-  private status: boolean | undefined
+  private id: number | null | undefined
+  private firstName: string
+  private lastName: string | null
+  private username: string | null
+  private userID: string
+  private chatID: string
+  private alertStatus: boolean
+  private status: boolean
 
-  constructor(userID?: string, chatID?: string, firstName?: string, lastName?: string, username?: string, alertStatus: boolean = true, status: boolean = true) {
+  constructor(userID: string, chatID: string, firstName: string, lastName: string | null, username: string | null, alertStatus: boolean = true, status: boolean = true) {
     this.userID = userID
     this.chatID = chatID
     this.firstName = firstName
