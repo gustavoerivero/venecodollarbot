@@ -31,7 +31,7 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
                   .catch(err => console.log('Sending schedule error: ', err))
               }
             })
-
+            return resp
           }
         })
         .catch(error => {
@@ -44,8 +44,6 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
       debug('Error: ', error)
       console.log('Cronjob error: ', error)
     })
-
-    return resp
 
 }
 
