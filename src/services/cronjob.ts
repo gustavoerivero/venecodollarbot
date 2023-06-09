@@ -47,7 +47,7 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
   const job = new CronJob(
-    '20 9,13 * * 1-5',
+    '0 9,13 * * 1-5',
     () => sendDailyMessages(bot),
     null,
     true,

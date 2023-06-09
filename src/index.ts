@@ -11,8 +11,6 @@ const ENVIRONMENT = process.env.NODE_ENV ?? ''
 
 const bot = new Telegraf(BOT_TOKEN)
 
-let activeUsers: number[] = []
-
 bot.command('about', about())
 
 bot.command('start', start())
@@ -70,15 +68,21 @@ bot.on('text', async ctx => {
 })
 
 init()
-  .catch(err => 
+  .catch(err =>
     console.log(`Init database error:`, err))
 
-scheduleCronJob(bot)
+const isDevelopment = () => {
+  if (ENVIRONMENT !== 'production') {
+    development(bot).catch(err => console.log(`Dev mode error: `, err))
+    scheduleCronJob(bot)
+  }
+}
 
 //prod mode (Vercel)
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   await production(req, res, bot)
+  scheduleCronJob(bot)
 }
 
 //dev mode
-ENVIRONMENT !== 'production' && development(bot).catch(err => console.log(`Dev mode error: `, err))
+ENVIRONMENT !== 'production' && isDevelopment()

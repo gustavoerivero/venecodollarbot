@@ -13,5 +13,9 @@
       "destination": "/api",
       "permanent": false
     }
-  ]
+  ],
+  "crons": [{
+    "path": "/api",
+    "schedule": "* 9,13 * * 1-5"
+  }]
 }
