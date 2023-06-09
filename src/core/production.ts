@@ -3,6 +3,7 @@ import createDebug from 'debug'
 import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
 import { cronVercel } from '..'
+import { sendDailyMessages } from '../services'
 
 const debug = createDebug('bot:dev')
 
@@ -37,7 +38,7 @@ const production = async (
     
     if (url === '/api/cron') {
       message = ' And activate cronjob.'
-      cronVercel()
+      sendDailyMessages(bot)
     }
 
     res.status(200).json(`Listening to bot events...${message}`)
