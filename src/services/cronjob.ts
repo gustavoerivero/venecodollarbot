@@ -11,42 +11,44 @@ export const timezone = process.env.TIMEZONE ?? ''
 
 const debug = createDebug('bot:cronjob')
 
-export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
+export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
 
-  try {
+  debug('Triggered "cronjob"')
 
-    debug('Triggered "cronjob"')
+  getDollarValues()
+    .then(message => {
+      getByColumn('Users', 'alertStatus', 'true')
+        .then(users => {
+          if (users && users.length > 0) {
+            users.forEach((item: TUserBD) => {
+              if (item?.chatid && message) {
+                bot.telegram.sendMessage(item.chatid, message, {
+                  parse_mode: 'Markdown'
+                })
+                  .catch(err => console.log('Sending schedule error: ', err))
+              }
+            })
 
-    const message = await getDollarValues()
+          }
+        })
+        .catch(error => {
+          debug('Error: ', error)
+          console.log('Cronjob error: ', error)
+        })
 
-    const users = await getByColumn('Users', 'alertStatus', 'true')
-
-    if (users && users.length > 0) {
-      users.forEach((item: TUserBD) => {
-        if (item && item.chatid && message) {
-          bot.telegram.sendMessage(item.chatid, message, {
-            parse_mode: 'Markdown'
-          })
-            .catch(err => console.log('Sending schedule error: ', err))
-        }
-      })
-
-    }
-
-  } catch (error) {
-    debug('Error: ', error)
-    console.log('Cronjob error: ', error)
-  }
+    })
+    .catch(error => {
+      debug('Error: ', error)
+      console.log('Cronjob error: ', error)
+    })
 
 }
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
   const job = new CronJob(
-    '0 9,13 * * mon-fri',
-    () => sendDailyMessages(bot)
-      .catch(err =>
-        console.log(`Schedule error: `, err)),
+    '20 9,13 * * 1-5',
+    () => sendDailyMessages(bot),
     null,
     true,
     timezone
