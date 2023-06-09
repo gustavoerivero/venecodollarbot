@@ -34,11 +34,11 @@ const production = async (
     let message = ''
     const url = req.url
     
-    if (req.url === '/api/cron') {
+    if (url === '/api/cron') {
       message = '\nAnd activate cronjob.'
     }
-    
-    res.status(200).json(`Listening to bot events...${url === '/api/cron' ? 'true' : 'false'}`)
+
+    res.status(200).json(`Listening to bot events...${message}`)
   }
   debug(`starting webhook on port: ${PORT}`)
 }
