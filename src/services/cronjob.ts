@@ -15,12 +15,15 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
 
   debug('Triggered "cronjob"')
 
+  let resp: TUserBD[] = []
+
   getDollarValues()
     .then(message => {
       getByColumn('Users', 'alertStatus', 'true')
         .then(users => {
           if (users && users.length > 0) {
             users.forEach((item: TUserBD) => {
+              resp.push(item)
               if (item?.chatid && message) {
                 bot.telegram.sendMessage(item.chatid, message, {
                   parse_mode: 'Markdown'
@@ -41,6 +44,8 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
       debug('Error: ', error)
       console.log('Cronjob error: ', error)
     })
+
+    return resp
 
 }
 

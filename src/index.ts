@@ -85,7 +85,7 @@ export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
 }
 
 export const cronVercel = () => {
-  sendDailyMessages(bot)
+  return sendDailyMessages(bot)
 }
 
 //dev mode
