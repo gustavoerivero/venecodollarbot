@@ -4,7 +4,7 @@ import { cronVercel, startVercel } from '../../src'
 export default async function handle(req: VercelRequest, res: VercelResponse) {
   try {
     await startVercel(req, res)
-    const resp = cronVercel()
+    const resp = await cronVercel()
     res.setHeader('Content-Type', 'text/html')
     res.send({
       title: 'This is the cronjob site',
