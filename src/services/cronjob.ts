@@ -46,8 +46,10 @@ export const sendDailyMessages = (bot: Telegraf<Context<Update>>) => {
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
+  const cronTime = process.env.CRON_TIME ?? '0 * * * *'
+
   const job = new CronJob(
-    '* 9,13 * * 1-5',
+    cronTime,
     () => sendDailyMessages(bot),
     null,
     true,
