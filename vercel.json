@@ -4,7 +4,7 @@
   "rewrites": [
     {
       "source": "/api/cron",
-      "destination": "api/cron.ts"
+      "destination": "api/cron/index.ts"
     },
     {
       "source": "/(.*)",
@@ -14,7 +14,7 @@
   "redirects": [
     {
       "source": "/api/cron",
-      "destination": "api/cron"
+      "destination": "/api/cron"
     },
     {
       "source": "/",
