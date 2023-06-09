@@ -12,8 +12,6 @@ export const alert = async (ctx: Context) => {
   const lastName = ctx.message?.from.last_name ?? null
   const username = ctx.message?.from.username ?? null
 
-  const name = `${firstName}${lastName && ' ' + lastName}`
-
   let message: string = ``
 
   if (chatID && userID) {
@@ -21,13 +19,13 @@ export const alert = async (ctx: Context) => {
     const user = await getByColumn('Users', ['chatID', 'alertStatus'], [chatID, 'true'])
 
     if (user && user.length > 0) {
-      message = `No te preocupes ${name}, los avisos diarios ya se encuentran activados`
+      message = `No te preocupes ${firstName}, los avisos diarios ya se encuentran activados`
     } else {
 
       const userBD: UserDB = new UserDB(userID, chatID, firstName, lastName, username)
       await userBD.create()
 
-      message = `¡Enhorabuena ${name}! Los avisos diarios han sido activados.`
+      message = `¡Enhorabuena ${firstName}! Los avisos diarios han sido activados.`
 
     }
 

@@ -7,11 +7,8 @@ export const unknown = async (ctx: Context, command: string, personalized: boole
 
   
   const firstName = ctx.message?.from.first_name ?? ''
-  const lastName = ctx.message?.from.last_name ?? null
-
-  const name = `${firstName}${lastName && ' ' + lastName}`
   
-  let message = `Disculpa ${name}, tuvimos un inconveniente.`
+  let message = `Disculpa ${firstName}, tuvimos un inconveniente.`
   
   if (!personalized) {
     message += `No pude comprender a qué te refieres con "${command}" 🥺.`
