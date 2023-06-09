@@ -23,3 +23,14 @@ export type TResponseData = {
     bolivarCalculated?: number
   }
 }
+
+export type TUserBD = {
+  id?: number
+  firstname?: string 
+  lastname?: string 
+  username?: string 
+  userid?: string 
+  chatid?: string 
+  alertstatus?: boolean
+  status?: boolean
+}

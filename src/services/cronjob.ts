@@ -4,35 +4,49 @@ import { Update } from 'telegraf/typings/core/types/typegram'
 import createDebug from 'debug'
 
 import DollarAPI from '../api/dollar/DollarAPI'
+import { getByColumn } from '../db'
+import { TUserBD } from '../types'
 
 export const timezone = process.env.TIMEZONE ?? ''
 
 const debug = createDebug('bot:cronjob')
 
-export const sendDailyMessages = (bot: Telegraf<Context<Update>>, activeUsers: number[]) => {
+export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
-  debug('Triggered "cronjob"')
+  try {
 
-  getDollarValues()
-    .then(message => {
-      for (const userId of activeUsers) {
-        bot.telegram.sendMessage(userId, message ?? '', {
-          parse_mode: 'Markdown'
-        })
-          .catch(err => debug(`Error: ${err}`))
-      }
-    })
-    .catch(err => {
-      debug(`Error: ${err}`)
-    })
+    debug('Triggered "cronjob"')
+
+    const message = await getDollarValues()
+
+    const users = await getByColumn('Users', 'alertStatus', 'true')
+
+    if (users && users.length > 0) {
+      users.forEach((item: TUserBD) => {
+        if (item && item.chatid && message) {
+          bot.telegram.sendMessage(item.chatid, message, {
+            parse_mode: 'Markdown'
+          })
+            .catch(err => console.log('Sending schedule error: ', err))
+        }
+      })
+
+    }
+
+  } catch (error) {
+    debug('Error: ', error)
+    console.log('Cronjob error: ', error)
+  }
 
 }
 
-export const scheduleCronJob = (bot: Telegraf<Context<Update>>, activeUsers: number[]) => {
+export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
   const job = new CronJob(
-    '0 9,13 * * *',
-    () => sendDailyMessages(bot, activeUsers),
+    '0 9,13 * * mon-fri',
+    () => sendDailyMessages(bot)
+      .catch(err =>
+        console.log(`Schedule error: `, err)),
     null,
     true,
     timezone

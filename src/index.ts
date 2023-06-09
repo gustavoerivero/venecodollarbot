@@ -73,7 +73,7 @@ init()
   .catch(err => 
     console.log(`Init database error:`, err))
 
-scheduleCronJob(bot, activeUsers)
+scheduleCronJob(bot)
 
 //prod mode (Vercel)
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
