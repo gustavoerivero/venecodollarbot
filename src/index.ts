@@ -84,14 +84,8 @@ export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   scheduleCronJob(bot)
 }
 
-export const cronVercel = async (req: VercelRequest, res: VercelResponse) => {
-  try {
-    sendDailyMessages(bot)
-    res.send('CronJob activated')
-  } catch (error: any) {
-    console.error(error.message)
-  } 
-  
+export const cronVercel = () => {
+    sendDailyMessages(bot)  
 }
 
 //dev mode

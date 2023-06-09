@@ -4,7 +4,7 @@ import { cronVercel, startVercel } from '../src'
 export default async function handle(req: VercelRequest, res: VercelResponse) {
   try {
     await startVercel(req, res)
-    await cronVercel(req, res)
+    cronVercel()
   } catch (e: any) {
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
