@@ -12,7 +12,7 @@ export const alert = async (ctx: Context) => {
   const lastName = ctx.message?.from.last_name ?? null
   const username = ctx.message?.from.username ?? null
 
-  const name = `${firstName} ${lastName}`
+  const name = `${firstName}${lastName && ' ' + lastName}`
 
   let message: string = ``
 

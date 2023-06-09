@@ -42,8 +42,12 @@ export const dollar = () => async (ctx: Context) => {
 
   } catch (error: any) {
 
-    const username = `${ctx.message?.from.first_name} ${ctx.message?.from.last_name}`
-    const message = `${username} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`
+    const firstName = ctx.message?.from.first_name ?? ''
+    const lastName = ctx.message?.from.last_name ?? null
+
+    const name = `${firstName}${lastName && ' ' + lastName}`
+    
+    const message = `${name} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`
 
     await ctx.replyWithMarkdownV2(message, {
       parse_mode: 'Markdown'

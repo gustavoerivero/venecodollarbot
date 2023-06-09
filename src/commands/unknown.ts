@@ -5,8 +5,13 @@ const debug = createDebug('bot:unknown')
 
 export const unknown = async (ctx: Context, command: string, personalized: boolean = false, text?: string) => {
 
-  const username = `${ctx.message?.from.first_name} ${ctx.message?.from.last_name}`
-  let message = `Disculpa ${username}, tuvimos un inconveniente.`
+  
+  const firstName = ctx.message?.from.first_name ?? ''
+  const lastName = ctx.message?.from.last_name ?? null
+
+  const name = `${firstName}${lastName && ' ' + lastName}`
+  
+  let message = `Disculpa ${name}, tuvimos un inconveniente.`
   
   if (!personalized) {
     message += `No pude comprender a qué te refieres con "${command}" 🥺.`

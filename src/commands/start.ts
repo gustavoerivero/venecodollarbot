@@ -7,8 +7,12 @@ const debug = createDebug('bot:about_command')
 
 export const start = () => async (ctx: Context) => {
 
-  const username = `${ctx.message?.from.first_name} ${ctx.message?.from.last_name}`
-  const message = `¡Hola ${username}! A continuación te muestro las cosas que puedo hacer:\n\n${menu()}\nAsí que dime, ¿qué puedo hacer por ti?`
+  const firstName = ctx.message?.from.first_name ?? ''
+  const lastName = ctx.message?.from.last_name ?? null
+
+  const name = `${firstName}${lastName && ' ' + lastName}`
+
+  const message = `¡Hola ${name}! A continuación te muestro las cosas que puedo hacer:\n\n${menu()}\nAsí que dime, ¿qué puedo hacer por ti?`
 
   debug(`Triggered "start" command with message \n${message}`)
   
