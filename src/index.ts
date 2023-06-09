@@ -3,7 +3,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 
 import { about, dollar, entity, help, start, calculate, detail, unknown, alert, remove } from './commands'
 import { development, production } from './core'
-import { scheduleCronJob } from './services'
+import { scheduleCronJob, sendDailyMessages } from './services'
 import { init } from './db'
 
 const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
@@ -82,6 +82,16 @@ const isDevelopment = () => {
 export const startVercel = async (req: VercelRequest, res: VercelResponse) => {
   await production(req, res, bot)
   scheduleCronJob(bot)
+}
+
+export const cronVercel = async (req: VercelRequest, res: VercelResponse) => {
+  try {
+    sendDailyMessages(bot)
+    res.send('CronJob activated')
+  } catch (error: any) {
+    console.error(error.message)
+  } 
+  
 }
 
 //dev mode
