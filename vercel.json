@@ -14,8 +14,14 @@
       "permanent": false
     }
   ],
-  "crons": [{
-    "path": "/api",
-    "schedule": "0 13 * * 1-5"
-  }]
+  "crons": [
+    {
+      "path": "/api",
+      "schedule": "0 9 * * 1-5"
+    },
+    {
+      "path": "/api",
+      "schedule": "0 13 * * 1-5"
+    }
+  ]
 }
