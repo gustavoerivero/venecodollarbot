@@ -1,13 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
-import { cronVercel, startVercel } from '../../src'
+import { cronVercel } from '../../src'
 
 export default async function handle(req: VercelRequest, res: VercelResponse) {
   try {
-    await startVercel(req, res)
-    await cronVercel()
+    const users = await cronVercel()
     res.setHeader('Content-Type', 'text/html')
     res.send({
       title: 'This is the cronjob site',
+      activeUsers: users?.length ?? 0
     })
   } catch (e: any) {
     res.statusCode = 500
