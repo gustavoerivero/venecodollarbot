@@ -4,9 +4,6 @@ import { cronVercel, startVercel } from '../src'
 export default async function handle(req: VercelRequest, res: VercelResponse) {
   try {
     await startVercel(req, res)
-    if (req.url === '/api/cron') {
-      cronVercel()
-    }
   } catch (e: any) {
     res.statusCode = 500
     res.setHeader('Content-Type', 'text/html')
