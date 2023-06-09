@@ -36,7 +36,7 @@ const production = async (
     const url = req.url
     
     if (url === '/api/cron') {
-      message = '\nAnd activate cronjob.'
+      message = ' And activate cronjob.'
       cronVercel()
     }
 

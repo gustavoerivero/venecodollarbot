@@ -13,6 +13,10 @@
   ],
   "redirects": [
     {
+      "source": "/api/cron",
+      "destination": "api/cron"
+    },
+    {
       "source": "/",
       "destination": "/api",
       "permanent": false
