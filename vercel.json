@@ -3,6 +3,10 @@
   "public": true,
   "rewrites": [
     {
+      "source": "/api/cron",
+      "destination": "api/cron.ts"
+    },
+    {
       "source": "/(.*)",
       "destination": "api/index.ts"
     }
