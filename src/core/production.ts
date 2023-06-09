@@ -33,20 +33,20 @@ const production = async (
   if (req.method === 'POST') {
     await bot.handleUpdate(req.body as unknown as Update, res)
     const url = req.url
-    
+
     if (url === '/api/cron') {
       sendDailyMessages(bot)
     }
   } else {
     let message = ''
     const url = req.url
-    
+
     if (url === '/api/cron') {
-      message = ' And activate cronjob.'
       sendDailyMessages(bot)
+    } else {
+      res.status(200).json(`Listening to bot events...${message}`)
     }
 
-    res.status(200).json(`Listening to bot events...${message}`)
   }
   debug(`starting webhook on port: ${PORT}`)
 }
