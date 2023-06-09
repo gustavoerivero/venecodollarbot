@@ -2,6 +2,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node'
 import createDebug from 'debug'
 import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
+import { cronVercel } from '..'
 
 const debug = createDebug('bot:dev')
 
@@ -36,6 +37,7 @@ const production = async (
     
     if (url === '/api/cron') {
       message = '\nAnd activate cronjob.'
+      cronVercel()
     }
 
     res.status(200).json(`Listening to bot events...${message}`)
