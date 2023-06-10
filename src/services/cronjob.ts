@@ -25,11 +25,11 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
     if (users && users.length > 0) {
       users.forEach((item: TUserBD) => {
-        resp.push(item)
         if (item?.chatid && message) {
           bot.telegram.sendMessage(item.chatid, message, {
             parse_mode: 'Markdown'
           })
+            .then(() => resp.push(item))
             .catch(err => console.log('Sending schedule error: ', err))
         }
       })
@@ -47,7 +47,7 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
-  const cronTime = process.env.CRON_TIME ?? '0 * * * *'
+  const cronTime = process.env.CRON_TIME ?? '0 9,13 * * 1-5'
 
   const job = new CronJob(
     cronTime,
