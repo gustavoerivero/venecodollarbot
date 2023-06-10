@@ -30,17 +30,10 @@ export const dateFormatter = (date: Date = new Date()): string | null => {
   const locale = process.env.LOCALE ?? ''
   const timeZone = process.env.TIMEZONE ?? ''
   
-  // Convert the date to the America/Caracas timezone
+  // Convert the date to the timezone
   const options = { timeZone }
-  const localeDate = new Date().toLocaleString(locale, options)
+  return date.toLocaleString(locale, options)
   
-  // Format the date and time components
-  
-  
-  // Concatenate the components into the formatted date string
-  const formattedDate = `${localeDate}`
-  
-  return formattedDate
   } catch (error) {
   console.log('Error trying to format date:', error)
   return null
