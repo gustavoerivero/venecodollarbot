@@ -27,15 +27,15 @@ export const formatEntityMessage = (entity: TEntity, calculate: boolean = false,
  */
 export const dateFormatter = (date: Date = new Date()): string | null => {
   try {
-  const locale = process.env.LOCALE ?? ''
-  const timeZone = process.env.TIMEZONE ?? ''
-  
-  // Convert the date to the timezone
-  const options = { timeZone }
-  return date.toLocaleString(locale, options)
-  
+    const locale = process.env.LOCALE ?? ''
+    const timeZone = process.env.TIMEZONE ?? ''
+
+    // Convert the date to the timezone
+    const options = { timeZone }
+    return date.toLocaleString(locale, options)
+
   } catch (error) {
-  console.log('Error trying to format date:', error)
-  return null
+    console.log('Error trying to format date:', error)
+    return null
   }
-  }
+}
