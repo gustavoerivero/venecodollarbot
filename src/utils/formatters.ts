@@ -27,29 +27,22 @@ export const formatEntityMessage = (entity: TEntity, calculate: boolean = false,
  */
 export const dateFormatter = (date: Date = new Date()): string | null => {
   try {
-
-    const locale = process.env.LOCALE ?? ''
-    const timeZone = process.env.TIMEZONE ?? ''
-
-    // Convert the date to the America/Caracas timezone
-    const options = { timeZone }
-    const localeDate = new Date(date.toLocaleString(locale, options))
-
-    // Format the date and time components
-    const hour = localeDate.toLocaleString(locale, { hour: 'numeric', hour12: true })
-    const minute = localeDate.toLocaleString(locale, { minute: '2-digit' })
-    const meridian = localeDate.toLocaleString(locale, { hour: 'numeric', hour12: true, hourCycle: 'h23' }).slice(-2)
-    const day = localeDate.toLocaleString(locale, { day: '2-digit' })
-    const month = localeDate.toLocaleString(locale, { month: '2-digit' })
-    const year = localeDate.toLocaleString(locale, { year: 'numeric' })
-
-    // Concatenate the components into the formatted date string
-    const formattedDate = `${hour}:${minute} ${meridian} del ${day}/${month}/${year}`
-
-    return formattedDate
-
+  const locale = process.env.LOCALE ?? ''
+  const timeZone = process.env.TIMEZONE ?? ''
+  
+  // Convert the date to the America/Caracas timezone
+  const options = { timeZone }
+  const localeDate = new Date().toLocaleString(locale, options)
+  
+  // Format the date and time components
+  
+  
+  // Concatenate the components into the formatted date string
+  const formattedDate = `${localeDate}`
+  
+  return formattedDate
   } catch (error) {
-    console.log('Error trying to format date:', error)
-    return null
+  console.log('Error trying to format date:', error)
+  return null
   }
-}
+  }
