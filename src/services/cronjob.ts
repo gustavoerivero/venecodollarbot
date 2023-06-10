@@ -13,8 +13,6 @@ const debug = createDebug('bot:cronjob')
 
 export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
-  debug('Triggered "cronjob"')
-
   let resp: TUserBD[] = []
 
   try {
@@ -24,15 +22,20 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
     const users = await getByColumn('Users', 'alertStatus', 'true')
 
     if (users && users.length > 0) {
-      users.forEach((item: TUserBD) => {
-        if (item?.chatid && message) {
-          bot.telegram.sendMessage(item.chatid, message, {
-            parse_mode: 'Markdown'
-          })
-            .then(() => resp.push(item))
-            .catch(err => console.log('Sending schedule error: ', err))
+      for (const user of users) {
+        if (user?.chatid && message) {
+          try {
+            await bot.telegram.sendMessage(user.chatid, message, {
+              parse_mode: 'Markdown'
+            })
+            resp.push(user)
+            debug('Triggered "cronjob"')
+          } catch (error) {
+            console.log('Sending schedule error: ', error)
+            debug(`Cronjob error: ${error}`)
+          }
         }
-      })
+      }
     }
 
     return resp
@@ -45,14 +48,18 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
 }
 
+const scheduleFunction = (bot: Telegraf<Context<Update>>) => {
+  sendDailyMessages(bot)
+    .catch(err => console.log(err))
+}
+
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
   const cronTime = process.env.CRON_TIME ?? '0 9,13 * * 1-5'
 
   const job = new CronJob(
     cronTime,
-    () => sendDailyMessages(bot)
-      .catch(err => console.log(err)),
+    () => scheduleFunction(bot),
     null,
     true,
     timezone
@@ -67,8 +74,10 @@ const getDollarValues = async () => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    const hour = new Date().getHours()
-    const minutes = new Date().getMinutes()
+    const options = { timeZone: timezone }
+
+    const hour = new Date().toLocaleString('en-US', { hour: 'numeric', ...options })
+    const minutes = new Date().toLocaleString('en-US', { minute: 'numeric', ...options })
 
     let message = `*Valores del dólar a las ${hour}:${minutes}*\n`
 
