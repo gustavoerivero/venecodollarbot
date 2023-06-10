@@ -6,6 +6,7 @@ import createDebug from 'debug'
 import DollarAPI from '../api/dollar/DollarAPI'
 import { getByColumn } from '../db'
 import { TUserBD } from '../types'
+import { dateFormatter } from '../utils'
 
 export const timezone = process.env.TIMEZONE ?? ''
 export const locale = process.env.LOCALE ?? ''
@@ -75,16 +76,9 @@ const getDollarValues = async () => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    const options = { timeZone: timezone, hour12: true }
+    const date = dateFormatter()
 
-    const currentDateTime = new Date()
-    const hour = currentDateTime.toLocaleString(locale, { ...options, hour: '2-digit' })
-    const minute = currentDateTime.toLocaleString(locale, { ...options, minute: '2-digit' })
-    const day = currentDateTime.toLocaleString(locale, { ...options, day: '2-digit' })
-    const month = currentDateTime.toLocaleString(locale, { ...options, month: '2-digit' })
-    const year = currentDateTime.toLocaleString(locale, { ...options, year: 'numeric' })
-
-    let message = `*Valores del dólar a las ${hour}:${minute} ${day}/${month}/${year}*\n`
+    let message = `*Valores del dólar ${date}*\n`
 
     const response = await dollarAPI.get()
     const data = response.data.Data
