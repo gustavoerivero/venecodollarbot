@@ -8,6 +8,7 @@ import { getByColumn } from '../db'
 import { TUserBD } from '../types'
 
 export const timezone = process.env.TIMEZONE ?? ''
+export const locale = process.env.LOCALE ?? ''
 
 const debug = createDebug('bot:cronjob')
 
@@ -74,12 +75,16 @@ const getDollarValues = async () => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    const options = { timeZone: timezone }
+    const options = { timeZone: timezone, hour12: true }
 
-    const hour = new Date().toLocaleString('en-US', { hour: 'numeric', ...options })
-    const minutes = new Date().toLocaleString('en-US', { minute: 'numeric', ...options })
+    const currentDateTime = new Date()
+    const hour = currentDateTime.toLocaleString(locale, { ...options, hour: '2-digit' })
+    const minute = currentDateTime.toLocaleString(locale, { ...options, minute: '2-digit' })
+    const day = currentDateTime.toLocaleString(locale, { ...options, day: '2-digit' })
+    const month = currentDateTime.toLocaleString(locale, { ...options, month: '2-digit' })
+    const year = currentDateTime.toLocaleString(locale, { ...options, year: 'numeric' })
 
-    let message = `*Valores del dólar a las ${hour}:${minutes}*\n`
+    let message = `*Valores del dólar a las ${hour}:${minute} ${day}/${month}/${year}*\n`
 
     const response = await dollarAPI.get()
     const data = response.data.Data
