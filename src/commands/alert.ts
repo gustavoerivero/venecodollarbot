@@ -25,7 +25,7 @@ export const alert = async (ctx: Context) => {
       const userBD: UserDB = new UserDB(userID, chatID, firstName, lastName, username)
       await userBD.create()
 
-      message = `¡Enhorabuena ${firstName}! Los avisos diarios han sido activados.`
+      message = `¡Enhorabuena ${firstName}! Los avisos diarios han sido activados.\n\nSolo queremos recordarte que esta función se encuentra en pruebas, por lo que puede que no funcione correctamente.`
 
     }
 

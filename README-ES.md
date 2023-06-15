@@ -1,4 +1,8 @@
-# venecodollarbot
+# Venecodollarbot
+
+<h1 align="center">
+  <img src="./assets/goose-removebg.png" alt="venecodollarbot" width="300" height="300" />
+</h1>
 
 <div align="center">
   <img src="https://img.shields.io/github/repo-size/gustavoerivero/venecodollarbot" alt="project size" />
