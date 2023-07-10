@@ -3,8 +3,9 @@
   "public": true,
   "redirects": [
     {
-      "source": "/(.*)",
-      "destination": "api/index.ts"
+      "source": "/",
+      "destination": "/api",
+      "permanent": false
     }
   ],
   "rewrites": [
