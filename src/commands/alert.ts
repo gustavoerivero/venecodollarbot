@@ -14,6 +14,7 @@ export const alert = async (ctx: Context) => {
 
   let message: string = ``
 
+  
   if (chatID && userID) {
 
     const user = await getByColumn('Users', ['chatID', 'alertStatus'], [chatID, 'true'])
