@@ -1,7 +1,20 @@
-import { Telegraf } from 'telegraf'
+import { Context, Telegraf } from 'telegraf'
 import { VercelRequest, VercelResponse } from '@vercel/node'
 
-import { about, dollar, entity, help, start, calculate, detail, unknown, alert, remove } from './commands'
+import {
+  about,
+  dollar,
+  entity,
+  help,
+  start,
+  calculate,
+  detail,
+  unknown,
+  alert,
+  remove,
+  list
+} from './commands'
+
 import { development, production } from './core'
 import { scheduleCronJob, sendDailyMessages } from './services'
 import { init } from './db'
@@ -27,35 +40,8 @@ bot.on('text', async ctx => {
 
   if (param1) {
 
-    if (command.startsWith('/fuente')) {
+    await commandWithParams(ctx, text, command, param1, param2, param3)
 
-      await entity(ctx, param1)
-
-    } else if (command.startsWith('/calcular') &&
-      (param1 === '$' || param1.toLowerCase() === 'bs') &&
-      param2
-    ) {
-
-      try {
-
-        const amount = Number(param2)
-        const toDollar = param1.toLowerCase() === 'bs'
-        const entity = param3 ?? ''
-        await calculate(ctx, amount, toDollar, entity)
-
-      } catch (error) {
-        await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
-      }
-
-    } else if (command.startsWith('/detalle')) {
-
-      await detail(ctx, param1)
-
-    } else {
-
-      await unknown(ctx, text)
-
-    }
   } else if (command.startsWith('/detalle')) {
 
     await detail(ctx)
@@ -90,3 +76,47 @@ export const cronVercel = async () => {
 
 //dev mode
 ENVIRONMENT !== 'production' && isDevelopment()
+
+const commandWithParams = async (
+  ctx: Context,
+  text: string,
+  command: string,
+  param1: string,
+  param2?: string,
+  param3?: string
+) => {
+
+  if (command.startsWith('/fuente')) {
+
+    await entity(ctx, param1)
+
+  } else if (command.startsWith('/list')) {
+
+    await list(ctx, text, param1)
+
+  } else if (command.startsWith('/calcular') &&
+    (param1 === '$' || param1.toLowerCase() === 'bs') &&
+    param2
+  ) {
+
+    try {
+
+      const amount = Number(param2)
+      const toDollar = param1.toLowerCase() === 'bs'
+      const entity = param3 ?? ''
+      await calculate(ctx, amount, toDollar, entity)
+
+    } catch (error) {
+      await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
+    }
+
+  } else if (command.startsWith('/detalle')) {
+
+    await detail(ctx, param1)
+
+  } else {
+
+    await unknown(ctx, text)
+
+  }
+}
