@@ -1,7 +1,7 @@
 import { db } from '@vercel/postgres'
 import createDebug from 'debug'
 
-const debug = createDebug('database:init')
+const debug = createDebug('bot:database->init')
 
 export const init = async () => {
   try {

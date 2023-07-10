@@ -2,7 +2,7 @@ import { db } from '@vercel/postgres'
 import createDebug from 'debug'
 import { getByColumn } from './db'
 
-const debug = createDebug('database:user')
+const debug = createDebug('bot:database->user')
 
 export class UserDB {
 

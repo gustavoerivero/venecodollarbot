@@ -3,7 +3,7 @@ import createDebug from 'debug'
 import { Context, Telegraf } from 'telegraf'
 import { Update } from 'telegraf/typings/core/types/typegram'
 
-const debug = createDebug('bot:dev')
+const debug = createDebug('bot:prod]')
 
 const PORT = (process.env.PORT && parseInt(process.env.PORT, 10)) || 3000
 const VERCEL_URL = `${process.env.VERCEL_URL}`

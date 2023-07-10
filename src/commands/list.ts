@@ -40,8 +40,7 @@ export const list = async (ctx: Context, text: string, param: string) => {
     const chatID = ctx.chat?.id.toString()
     const userID = ctx.message?.from.id.toString()
 
-    const token = process.env.TOKEN
-
+    const token = process.env.ACCESS_TOKEN
 
     if (param === token && chatID && userID) {
 
