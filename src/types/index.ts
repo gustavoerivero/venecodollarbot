@@ -1,3 +1,10 @@
+export type TDate = {
+  dayWeek: string, 
+  day: number, 
+  month: string, 
+  year: number
+}
+
 export type TEntity = {
   entity: string
   info: TEntityInfo
@@ -26,11 +33,11 @@ export type TResponseData = {
 
 export type TUserBD = {
   id?: number
-  firstname?: string 
-  lastname?: string 
-  username?: string 
-  userid?: string 
-  chatid?: string 
+  firstname?: string
+  lastname?: string
+  username?: string
+  userid?: string
+  chatid?: string
   alertstatus?: boolean
   status?: boolean
 }

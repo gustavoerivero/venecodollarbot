@@ -1,4 +1,70 @@
-import { TEntity } from '../types'
+import { TDate, TEntity } from '../types'
+
+export const locale = process.env.LOCALE ?? ''
+export const timeZone = process.env.TIMEZONE ?? ''
+
+export const months = [
+  'Enero', 'Febrero', 'Marzo',
+  'Abril', 'Mayo', 'Junio',
+  'Julio', 'Agosto', 'Septiembre',
+  'Octubre', 'Noviembre', 'Diciembre'
+]
+
+export const days = [
+  'Domingo', 'Lunes', 'Martes', 'Miércoles', 
+  'Jueves', 'Viernes', 'Sábado'
+]
+
+const options = { timeZone }
+
+/**
+ * Method to get the hour from a date string or Date object.
+ * @param {string | Date | null} date - The date to extract the hour from.
+ * @returns {string} The formatted hour in HH:mm AM/PM format.
+ * @throws {Error} If the date value is missing or in an invalid format.
+ */
+export const getHour = (date: string | Date | null): string => {
+  try {
+    if (!date) {
+      throw Error('The date value must exist in date or string format.')
+    }
+
+    let localDate: Date
+
+    if (typeof date === 'string') {
+      localDate = new Date(date)
+    } else {
+      localDate = date
+    }
+
+    return localDate.toLocaleTimeString(locale, options)
+  } catch (error) {
+    throw Error(`Error trying to get the hour: ${error}`)
+  }
+}
+
+/**
+ * Method to get the formatted date information from a Date object.
+ * @param {Date} date - The date to extract the information from (default: current date).
+ * @returns {Object} An object containing the day of the week, day of the month, month, and year.
+ * @throws {Error} If there is an error while retrieving the date information.
+ */
+export const getDate = (date: Date = new Date()): TDate => {
+  try {
+
+    const d = new Date(date.toLocaleTimeString(locale, options))
+
+    return {
+      dayWeek: days[d.getDay()],
+      day: d.getDate(),
+      month: months[d.getMonth()].toLowerCase(),
+      year: d.getFullYear()
+    }
+    
+  } catch (error) {
+    throw Error(`Error trying to get the date: ${error}`)
+  }
+}
 
 export const deleteAtSign = (string: string): string | null => {
   if (string) {
@@ -27,11 +93,8 @@ export const formatEntityMessage = (entity: TEntity, calculate: boolean = false,
  */
 export const dateFormatter = (date: Date = new Date()): string | null => {
   try {
-    const locale = process.env.LOCALE ?? ''
-    const timeZone = process.env.TIMEZONE ?? ''
 
     // Convert the date to the timezone
-    const options = { timeZone }
     return date.toLocaleString(locale, options)
 
   } catch (error) {

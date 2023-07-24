@@ -6,7 +6,7 @@ import createDebug from 'debug'
 import DollarAPI from '../api/dollar/DollarAPI'
 import { getByColumn } from '../db'
 import { TUserBD } from '../types'
-import { dateFormatter } from '../utils'
+import { dateFormatter, getDate } from '../utils'
 
 export const timezone = process.env.TIMEZONE ?? ''
 export const locale = process.env.LOCALE ?? ''
@@ -76,9 +76,10 @@ const getDollarValues = async () => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
+    const { dayWeek } = getDate(new Date()) ?? ''
     const date = dateFormatter()
 
-    let message = `*Valores del dólar ${date}*\n`
+    let message = `*Valores del dólar ${dayWeek} ${date}*\n`
 
     const response = await dollarAPI.get()
     const data = response.data.Data

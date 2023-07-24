@@ -1,6 +1,7 @@
 import { Context } from 'telegraf'
 import createDebug from 'debug'
 import DollarAPI from '../api/dollar/DollarAPI'
+import { dateFormatter, getDate } from '../utils'
 
 const debug = createDebug('bot:dollar_command')
 
@@ -8,9 +9,12 @@ export const dollar = () => async (ctx: Context) => {
 
   try {
 
+    const { dayWeek } = getDate(new Date()) ?? ''
+    const date = dateFormatter()
+
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    let message = '*Valores del dólar:*\n'
+    let message = `*Valores del dólar ${dayWeek} ${date}*\n`
 
     const response = await dollarAPI.get()
     const data = response.data.Data
