@@ -52,7 +52,7 @@ export const getHour = (date: string | Date | null): string => {
 export const getDate = (date: Date = new Date()): TDate => {
   try {
 
-    const d = new Date(date.toLocaleTimeString(locale, options))
+    const d = new Date(date)
 
     return {
       dayWeek: days[d.getDay()],
@@ -60,7 +60,7 @@ export const getDate = (date: Date = new Date()): TDate => {
       month: months[d.getMonth()].toLowerCase(),
       year: d.getFullYear()
     }
-    
+
   } catch (error) {
     throw Error(`Error trying to get the date: ${error}`)
   }
