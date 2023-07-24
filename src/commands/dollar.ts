@@ -14,7 +14,7 @@ export const dollar = () => async (ctx: Context) => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    let message = `*Valores del dólar ${dayWeek} ${date}*\n`
+    let message = `*Valores del dólar al ${dayWeek.toLowerCase()} ${date}*\n`
 
     const response = await dollarAPI.get()
     const data = response.data.Data
