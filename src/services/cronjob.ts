@@ -94,7 +94,7 @@ const getDollarValues = async () => {
         const dollar = entity.info.dollar
         const updatedDate = entity.info.updatedDate
 
-        if (dollar > 0) {
+        if (dollar && dollar > 0) {
           message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\n`
         }
       }

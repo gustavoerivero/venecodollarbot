@@ -12,7 +12,10 @@ import {
   unknown,
   alert,
   remove,
-  list
+  list,
+  euro,
+  calculateEuro,
+  entityEuro
 } from './commands'
 
 import { development, production } from './core'
@@ -30,6 +33,9 @@ bot.command('start', start())
 bot.command('help', help())
 
 bot.command('dolar', dollar())
+
+bot.command('euro', euro())
+
 bot.command('avisos', ctx => alert(ctx))
 bot.command('remover', ctx => remove(ctx))
 
@@ -77,7 +83,19 @@ export const cronVercel = async () => {
 //dev mode
 ENVIRONMENT !== 'production' && isDevelopment()
 
-const commandWithParams = async (
+const entities = async (ctx: Context, command: string, param1: string) => {
+  if (command.startsWith('/fuente')) {
+
+    await entity(ctx, param1)
+
+  } else if (command.startsWith('/euroFuente')) {
+
+    await entityEuro(ctx, param1)
+
+  }
+}
+
+const calculator = async (
   ctx: Context,
   text: string,
   command: string,
@@ -86,15 +104,7 @@ const commandWithParams = async (
   param3?: string
 ) => {
 
-  if (command.startsWith('/fuente')) {
-
-    await entity(ctx, param1)
-
-  } else if (command.startsWith('/list')) {
-
-    await list(ctx, text, param1)
-
-  } else if (command.startsWith('/calcular') &&
+  if (command.startsWith('/calcular') &&
     (param1 === '$' || param1.toLowerCase() === 'bs') &&
     param2
   ) {
@@ -109,6 +119,45 @@ const commandWithParams = async (
     } catch (error) {
       await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
     }
+
+  } else if (command.startsWith('/euroCalcular') &&
+    (param1 === '€' || param1.toLowerCase() === 'eur' || param1.toLowerCase() === 'bs') &&
+    param2
+  ) {
+
+    try {
+
+      const amount = Number(param2)
+      const toEuro = param1.toLowerCase() === 'bs'
+      const entity = param3 ?? ''
+      await calculateEuro(ctx, amount, toEuro, entity)
+
+    } catch (error) {
+      await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
+    }
+
+  }
+}
+
+const commandWithParams = async (
+  ctx: Context,
+  text: string,
+  command: string,
+  param1: string,
+  param2?: string,
+  param3?: string
+) => {
+  if (command.startsWith('/fuente') || command.startsWith('/euroFuente')) {
+
+    await entities(ctx, command, param1)
+
+  } else if (command.startsWith('/calcular') || command.startsWith('/euroCalcular')) {
+
+    await calculator(ctx, text, command, param1, param2, param3)
+
+  } else if (command.startsWith('/list')) {
+
+    await list(ctx, text, param1)
 
   } else if (command.startsWith('/detalle')) {
 

@@ -1,7 +1,7 @@
 import { Context } from 'telegraf'
 import createDebug from 'debug'
-import DollarAPI from '../api/dollar/DollarAPI'
-import { deleteAtSign, formatCalculateMessage, formatEntityMessage } from '../utils'
+import DollarAPI from '../../api/dollar/DollarAPI'
+import { deleteAtSign, formatCalculateMessage, formatEntityMessage } from '../../utils'
 
 const debug = createDebug('bot:calculate_command')
 
@@ -21,7 +21,7 @@ export const calculate = async (ctx: Context, amount: number = 0, toDollar: bool
       const { entities, average } = data
 
       for (const entity of entities) {
-        if (entity.info.dollar > 0) {
+        if (entity.info.dollar && entity.info.dollar > 0) {
           message += formatEntityMessage(entity, true, toDollar)  
         }
 

@@ -74,8 +74,20 @@ export const deleteAtSign = (string: string): string | null => {
   return null
 }
 
+export const formatEuroCalculateMessage = (toEuro: boolean, euro?: number, bolivar?: number): string => {
+  return toEuro ? `*Euros calculados: € ${euro}*\n\n` : `*Bolívares calculados: Bs. ${bolivar}*\n\n`
+}
+
 export const formatCalculateMessage = (toDollar: boolean, dollar?: number, bolivar?: number): string => {
   return toDollar ? `*Dólares calculados: $ ${dollar}*\n\n` : `*Bolívares calculados: Bs. ${bolivar}*\n\n`
+}
+
+export const formatEuroEntityMessage = (entity: TEntity, calculate: boolean = false, toEuro: boolean = false): string => {
+  const title = deleteAtSign(entity.info.title)
+  const euro = entity.info.euro
+  const updatedDate = entity.info.updatedDate
+
+  return `- *${title}* -\nEuro: Bs. ${euro}\nFecha de actualización: ${updatedDate}\n${calculate && formatEuroCalculateMessage(toEuro, entity.euroCalculated ?? 0, entity.bolivarCalculated ?? 0)}`
 }
 
 export const formatEntityMessage = (entity: TEntity, calculate: boolean = false, toDollar: boolean = false): string => {

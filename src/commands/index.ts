@@ -2,10 +2,11 @@ export * from './about'
 
 export * from './start'
 export * from './help'
+
 export * from './dollar'
-export * from './entity'
+export * from './euro'
+
 export * from './about'
-export * from './calculate'
 export * from './detail'
 export * from './alert'
 export * from './remove'
