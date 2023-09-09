@@ -1,7 +1,7 @@
-import { db } from '@vercel/postgres'
-import createDebug from 'debug'
+import { db } from "@vercel/postgres"
+import createDebug from "debug"
 
-const debug = createDebug('bot:database->init')
+const debug = createDebug("bot:database->init")
 
 export const init = async () => {
   try {
@@ -68,8 +68,8 @@ export const getByColumn = async (
     const dataArray = Array.isArray(data) ? data : [data]
 
     const whereClause = columnsArray
-      .map((column, index) => `${column} = '${dataArray[index]}'`)
-      .join(' AND ')
+      .map((column, index) => `${column} = "${dataArray[index]}"`)
+      .join(" AND ")
 
     const client = await db.connect()
     const { rows } = await client.query(`SELECT * FROM ${tableName} WHERE ${whereClause};`)
@@ -95,8 +95,8 @@ export const update = async (
     const dataArray = Array.isArray(data) ? data : [data]
 
     const setClause = columnsArray
-      .map((column, index) => `${column} = '${dataArray[index]}'`)
-      .join(', ')
+      .map((column, index) => `${column} = "${dataArray[index]}"`)
+      .join(", ")
 
     console.log(setClause)
 

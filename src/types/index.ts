@@ -18,20 +18,27 @@ export type TEntityInfo = {
   euro?: number
   dollar?: number;
   updatedDate: string;
+  image?: string;
+  difference?: number;
+  differencePercentage?: string;
+  tendency?: string;
+  tendencyColor?: string;
+}
+
+export type TData = {
+  date?: string;
+  average?: number;
+  entities?: TEntity[];
+  entity?: string;
+  info?: TEntityInfo;
+  dollarCalculated?: number;
+  euroCalculated?: number;
+  bolivarCalculated?: number;
 }
 
 export type TResponseData = {
   OK: number;
-  Data: {
-    date?: string;
-    average?: number;
-    entities?: TEntity[];
-    entity?: string;
-    info?: TEntityInfo;
-    dollarCalculated?: number;
-    euroCalculated?: number;
-    bolivarCalculated?: number;
-  };
+  Data: TData;
 };
 
 export type TUserBD = {

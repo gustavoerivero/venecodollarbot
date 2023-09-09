@@ -1,17 +1,17 @@
-import { CronJob } from 'cron'
-import { Context, Telegraf } from 'telegraf'
-import { Update } from 'telegraf/typings/core/types/typegram'
-import createDebug from 'debug'
+import { CronJob } from "cron"
+import { Context, Telegraf } from "telegraf"
+import { Update } from "telegraf/typings/core/types/typegram"
+import createDebug from "debug"
 
-import DollarAPI from '../api/dollar/DollarAPI'
-import { getByColumn } from '../db'
-import { TUserBD } from '../types'
-import { dateFormatter, getDate } from '../utils'
+import DollarAPI from "../api/dollar/DollarAPI"
+import { getByColumn } from "../db"
+import { TUserBD } from "../types"
+import { dateFormatter, getDate } from "../utils"
 
-export const timezone = process.env.TIMEZONE ?? ''
-export const locale = process.env.LOCALE ?? ''
+export const timezone = process.env.TIMEZONE ?? ""
+export const locale = process.env.LOCALE ?? ""
 
-const debug = createDebug('bot:cronjob')
+const debug = createDebug("bot:cronjob")
 
 export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
@@ -21,19 +21,19 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
     const message = await getDollarValues()
 
-    const users = await getByColumn('Users', 'alertStatus', 'true')
+    const users = await getByColumn("Users", "alertStatus", "true")
 
     if (users && users.length > 0) {
       for (const user of users) {
         if (user?.chatid && message) {
           try {
             await bot.telegram.sendMessage(user.chatid, message, {
-              parse_mode: 'Markdown'
+              parse_mode: "Markdown"
             })
             resp.push(user)
             debug('Triggered "cronjob"')
           } catch (error) {
-            console.log('Sending schedule error: ', error)
+            console.log("Sending schedule error: ", error)
             debug(`Cronjob error: ${error}`)
           }
         }
@@ -44,8 +44,8 @@ export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
 
   }
   catch (error) {
-    debug('Error: ', error)
-    console.log('Cronjob error: ', error)
+    debug("Error: ", error)
+    console.log("Cronjob error: ", error)
   }
 
 }
@@ -57,7 +57,7 @@ const scheduleFunction = (bot: Telegraf<Context<Update>>) => {
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
 
-  const cronTime = process.env.CRON_TIME ?? '0 9,13 * * 1-5'
+  const cronTime = process.env.CRON_TIME ?? "0 9,13 * * 1-5"
 
   const job = new CronJob(
     cronTime,
@@ -76,7 +76,7 @@ const getDollarValues = async () => {
 
     const dollarAPI: DollarAPI = new DollarAPI()
 
-    const { dayWeek } = getDate(new Date()) ?? ''
+    const { dayWeek } = getDate(new Date()) ?? ""
     const date = dateFormatter()
 
     let message = `*Valores del dólar al ${dayWeek.toLowerCase()} ${date}*\n`
@@ -89,7 +89,7 @@ const getDollarValues = async () => {
       const { entities, average } = data
 
       for (const entity of entities) {
-        const name = entity.info.title.split('@')
+        const name = entity.info.title.split("@")
         const title = name[1] ? name[1] : name[0]
         const dollar = entity.info.dollar
         const updatedDate = entity.info.updatedDate
@@ -105,6 +105,6 @@ const getDollarValues = async () => {
 
     }
   } catch (error) {
-    return 'Lo lamento, pero no pudimos obtener los valores del dólar 😔.'
+    return "Lo lamento, pero no pudimos obtener los valores del dólar 😔."
   }
 }

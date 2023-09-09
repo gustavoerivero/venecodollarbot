@@ -1,5 +1,5 @@
-import { Context, Telegraf } from 'telegraf'
-import { VercelRequest, VercelResponse } from '@vercel/node'
+import { Context, Telegraf } from "telegraf"
+import { VercelRequest, VercelResponse } from "@vercel/node"
 
 import {
   about,
@@ -16,39 +16,39 @@ import {
   euro,
   calculateEuro,
   entityEuro
-} from './commands'
+} from "./commands"
 
-import { development, production } from './core'
-import { scheduleCronJob, sendDailyMessages } from './services'
-import { init } from './db'
+import { development, production } from "./core"
+import { scheduleCronJob, sendDailyMessages } from "./services"
+import { init } from "./db"
 
-const BOT_TOKEN = process.env.BOT_TOKEN ?? ''
-const ENVIRONMENT = process.env.NODE_ENV ?? ''
+const BOT_TOKEN = process.env.BOT_TOKEN ?? ""
+const ENVIRONMENT = process.env.NODE_ENV ?? ""
 
 const bot = new Telegraf(BOT_TOKEN)
 
-bot.command('about', about())
+bot.command("about", about())
 
-bot.command('start', start())
-bot.command('help', help())
+bot.command("start", start())
+bot.command("help", help())
 
-bot.command('dolar', dollar())
+bot.command("dolar", dollar())
 
-bot.command('euro', euro())
+bot.command("euro", euro())
 
-bot.command('avisos', ctx => alert(ctx))
-bot.command('remover', ctx => remove(ctx))
+bot.command("avisos", ctx => alert(ctx))
+bot.command("remover", ctx => remove(ctx))
 
-bot.on('text', async ctx => {
+bot.on("text", async ctx => {
 
   const { text } = ctx.message
-  const [command, param1, param2, param3] = text.split(' ')
+  const [command, param1, param2, param3] = text.split(" ")
 
   if (param1) {
 
     await commandWithParams(ctx, text, command, param1, param2, param3)
 
-  } else if (command.startsWith('/detalle')) {
+  } else if (command.startsWith("/detalle")) {
 
     await detail(ctx)
 
@@ -64,7 +64,7 @@ init()
     console.log(`Init database error:`, err))
 
 const isDevelopment = () => {
-  if (ENVIRONMENT !== 'production') {
+  if (ENVIRONMENT !== "production") {
     development(bot).catch(err => console.log(`Dev mode error: `, err))
     scheduleCronJob(bot)
   }
@@ -81,14 +81,14 @@ export const cronVercel = async () => {
 }
 
 //dev mode
-ENVIRONMENT !== 'production' && isDevelopment()
+ENVIRONMENT !== "production" && isDevelopment()
 
 const entities = async (ctx: Context, command: string, param1: string) => {
-  if (command.startsWith('/fuente')) {
+  if (command.startsWith("/fuente")) {
 
     await entity(ctx, param1)
 
-  } else if (command.startsWith('/euroFuente')) {
+  } else if (command.startsWith("/euroFuente")) {
 
     await entityEuro(ctx, param1)
 
@@ -104,36 +104,36 @@ const calculator = async (
   param3?: string
 ) => {
 
-  if (command.startsWith('/calcular') &&
-    (param1 === '$' || param1.toLowerCase() === 'bs') &&
+  if (command.startsWith("/calcular") &&
+    (param1 === "$" || param1.toLowerCase() === "bs") &&
     param2
   ) {
 
     try {
 
       const amount = Number(param2)
-      const toDollar = param1.toLowerCase() === 'bs'
-      const entity = param3 ?? ''
+      const toDollar = param1.toLowerCase() === "bs"
+      const entity = param3 ?? ""
       await calculate(ctx, amount, toDollar, entity)
 
     } catch (error) {
-      await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
+      await unknown(ctx, text, true, "El monto que proporcionas no lo comprendo 🫠.")
     }
 
-  } else if (command.startsWith('/euroCalcular') &&
-    (param1 === '€' || param1.toLowerCase() === 'eur' || param1.toLowerCase() === 'bs') &&
+  } else if (command.startsWith("/euroCalcular") &&
+    (param1 === "€" || param1.toLowerCase() === "eur" || param1.toLowerCase() === "bs") &&
     param2
   ) {
 
     try {
 
       const amount = Number(param2)
-      const toEuro = param1.toLowerCase() === 'bs'
-      const entity = param3 ?? ''
+      const toEuro = param1.toLowerCase() === "bs"
+      const entity = param3 ?? ""
       await calculateEuro(ctx, amount, toEuro, entity)
 
     } catch (error) {
-      await unknown(ctx, text, true, 'El monto que proporcionas no lo comprendo 🫠.')
+      await unknown(ctx, text, true, "El monto que proporcionas no lo comprendo 🫠.")
     }
 
   }
@@ -147,19 +147,19 @@ const commandWithParams = async (
   param2?: string,
   param3?: string
 ) => {
-  if (command.startsWith('/fuente') || command.startsWith('/euroFuente')) {
+  if (command.startsWith("/fuente") || command.startsWith("/euroFuente")) {
 
     await entities(ctx, command, param1)
 
-  } else if (command.startsWith('/calcular') || command.startsWith('/euroCalcular')) {
+  } else if (command.startsWith("/calcular") || command.startsWith("/euroCalcular")) {
 
     await calculator(ctx, text, command, param1, param2, param3)
 
-  } else if (command.startsWith('/list')) {
+  } else if (command.startsWith("/list")) {
 
     await list(ctx, text, param1)
 
-  } else if (command.startsWith('/detalle')) {
+  } else if (command.startsWith("/detalle")) {
 
     await detail(ctx, param1)
 

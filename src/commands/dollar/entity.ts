@@ -1,9 +1,9 @@
-import { Context } from 'telegraf'
-import createDebug from 'debug'
-import DollarAPI from '../../api/dollar/DollarAPI'
-import { formatEntityMessage } from '../../utils'
+import { Context } from "telegraf"
+import createDebug from "debug"
+import DollarAPI from "../../api/dollar/DollarAPI"
+import { formatEntityMessage } from "../../utils"
 
-const debug = createDebug('bot:entity_command')
+const debug = createDebug("bot:entity_command")
 
 export const entity = async (ctx: Context, entityName: string) => {
 
@@ -31,7 +31,7 @@ export const entity = async (ctx: Context, entityName: string) => {
 
     } else {
 
-      const name = data.info?.title.split('@') ?? ''
+      const name = data.info?.title.split("@") ?? ""
       const title = name[1] ? name[1] : name[0]
       const dollar = data.info?.dollar
       const updatedDate = data.info?.updatedDate
@@ -43,16 +43,16 @@ export const entity = async (ctx: Context, entityName: string) => {
     debug(`Triggered "entity" command with message \n${message}`)
 
     await ctx.replyWithMarkdownV2(message, {
-      parse_mode: 'Markdown'
+      parse_mode: "Markdown"
     })
 
   } catch (error: any) {
 
-    const firstName = ctx.message?.from.first_name ?? ''
+    const firstName = ctx.message?.from.first_name ?? ""
     const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`
 
     await ctx.replyWithMarkdownV2(message, {
-      parse_mode: 'Markdown'
+      parse_mode: "Markdown"
     })
   }
 

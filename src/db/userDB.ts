@@ -1,8 +1,8 @@
-import { db } from '@vercel/postgres'
-import createDebug from 'debug'
-import { getByColumn } from './db'
+import { db } from "@vercel/postgres"
+import createDebug from "debug"
+import { getByColumn } from "./db"
 
-const debug = createDebug('bot:database->user')
+const debug = createDebug("bot:database->user")
 
 export class UserDB {
 
@@ -40,19 +40,19 @@ export class UserDB {
         alertStatus, 
         status
       ) VALUES (
-        '${this.firstName}', 
-        '${this.lastName}', 
-        '${this.username}', 
-        '${this.userID}', 
-        '${this.chatID}', 
-        '${this.alertStatus}', 
-        '${this.status}'
+        "${this.firstName}", 
+        "${this.lastName}", 
+        "${this.username}", 
+        "${this.userID}", 
+        "${this.chatID}", 
+        "${this.alertStatus}", 
+        "${this.status}"
       ) ON CONFLICT ON CONSTRAINT user_unique
       DO UPDATE SET chatID = EXCLUDED.chatID,
-      alertStatus = 'true';
+      alertStatus = "true";
     `)
 
-      const result = await getByColumn('Users', 'userID', `${this.userID}`)
+      const result = await getByColumn("Users", "userID", `${this.userID}`)
       if (result) {
         this.id = Number(result[0].id)
       }

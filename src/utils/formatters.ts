@@ -1,18 +1,18 @@
-import { TDate, TEntity } from '../types'
+import { TDate, TEntity } from "../types"
 
-export const locale = process.env.LOCALE ?? ''
-export const timeZone = process.env.TIMEZONE ?? ''
+export const locale = process.env.LOCALE ?? ""
+export const timeZone = process.env.TIMEZONE ?? ""
 
 export const months = [
-  'Enero', 'Febrero', 'Marzo',
-  'Abril', 'Mayo', 'Junio',
-  'Julio', 'Agosto', 'Septiembre',
-  'Octubre', 'Noviembre', 'Diciembre'
+  "Enero", "Febrero", "Marzo",
+  "Abril", "Mayo", "Junio",
+  "Julio", "Agosto", "Septiembre",
+  "Octubre", "Noviembre", "Diciembre"
 ]
 
 export const days = [
-  'Domingo', 'Lunes', 'Martes', 'Miércoles', 
-  'Jueves', 'Viernes', 'Sábado'
+  "Domingo", "Lunes", "Martes", "Miércoles", 
+  "Jueves", "Viernes", "Sábado"
 ]
 
 const options = { timeZone }
@@ -26,12 +26,12 @@ const options = { timeZone }
 export const getHour = (date: string | Date | null): string => {
   try {
     if (!date) {
-      throw Error('The date value must exist in date or string format.')
+      throw Error("The date value must exist in date or string format.")
     }
 
     let localDate: Date
 
-    if (typeof date === 'string') {
+    if (typeof date === "string") {
       localDate = new Date(date)
     } else {
       localDate = date
@@ -68,7 +68,7 @@ export const getDate = (date: Date = new Date()): TDate => {
 
 export const deleteAtSign = (string: string): string | null => {
   if (string) {
-    const text = string.split('@')
+    const text = string.split("@")
     return text[1] ? text[1] : text[0]
   }
   return null
@@ -110,7 +110,7 @@ export const dateFormatter = (date: Date = new Date()): string | null => {
     return date.toLocaleString(locale, options)
 
   } catch (error) {
-    console.log('Error trying to format date:', error)
+    console.log("Error trying to format date:", error)
     return null
   }
 }
