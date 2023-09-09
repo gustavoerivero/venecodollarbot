@@ -24,8 +24,6 @@
 
 Venecodollar bot representa un bot para la aplicación de mensajería instantánea, Telegram. Este bot consume la [API de Venecodollar](https://github.com/gustavoerivero/venecodollar), la cuál provee de los valores del dólar en términos de bolívar medido por algunos monitores de su valor, entre los que podemos conseguir al Banco Central de Venezuela (BCV), enParalelo, DolarToday e incluso, la tasa del dólar en Binance.
 
-Los datos son obtenidos desde [monitordolarvenezuela](www.monitordolarvenezuela.com)
-
 Entre las funciones que provee el bot, tenemos:
 
 ### start
