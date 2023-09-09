@@ -56,22 +56,20 @@ const entityMessage = (entity: TEntity) => {
   const title = name[1] ? name[1] : name[0]
   const dollar = entity.info.dollar
   const updatedDate = entity.info.updatedDate
-  const difference = entity.info.difference
-  let percentage = entity.info.differencePercentage
 
+  let percentage = entity.info.differencePercentage
   let tendency = ""
 
   if (entity.info.tendencyColor === "green") {
-    tendency = "📈"
+    tendency = percentage + " 📈"
   } else if (entity.info.tendencyColor === "red") {
-    percentage = "-" + percentage
-    tendency = "📉"
+    tendency = "-" + percentage + " 📉"
   } else {
-    tendency = "🟰"
+    tendency = percentage + " 🟰"
   }
 
   if (dollar && dollar > 0) {
-    message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\nTendencia: ${tendency}\nDiferencia: ${difference}\nPorcentaje de diferencia: ${percentage}\n`
+    message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nTendencia: ${tendency}\nFecha de actualización: ${updatedDate}\n`
   }
 
   return message
