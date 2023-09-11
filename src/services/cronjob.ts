@@ -5,7 +5,7 @@ import createDebug from "debug"
 
 import DollarAPI from "../api/dollar/DollarAPI"
 import { getByColumn } from "../db"
-import { TUserBD } from "../types"
+import { TEntity, TUserBD } from "../types"
 import { dateFormatter, getDate } from "../utils"
 
 export const timezone = process.env.TIMEZONE ?? ""
@@ -89,14 +89,7 @@ const getDollarValues = async () => {
       const { entities, average } = data
 
       for (const entity of entities) {
-        const name = entity.info.title.split("@")
-        const title = name[1] ? name[1] : name[0]
-        const dollar = entity.info.dollar
-        const updatedDate = entity.info.updatedDate
-
-        if (dollar && dollar > 0) {
-          message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nFecha de actualización: ${updatedDate}\n`
-        }
+        message += entityMessage(entity)
       }
 
       message += `\n*Promedio general: Bs. ${average}*`
@@ -107,4 +100,29 @@ const getDollarValues = async () => {
   } catch (error) {
     return "Lo lamento, pero no pudimos obtener los valores del dólar 😔."
   }
+}
+
+const entityMessage = (entity: TEntity) => {
+  let message = ""
+  const name = entity.info.title.split("@")
+  const title = name[1] ? name[1] : name[0]
+  const dollar = entity.info.dollar
+  const updatedDate = entity.info.updatedDate
+
+  let percentage = entity.info.differencePercentage
+  let tendency = ""
+
+  if (entity.info.tendencyColor === "green") {
+    tendency = percentage + " 📈"
+  } else if (entity.info.tendencyColor === "red") {
+    tendency = "-" + percentage + " 📉"
+  } else {
+    tendency = percentage + " 🟰"
+  }
+
+  if (dollar && dollar > 0) {
+    message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nTendencia: ${tendency}\nFecha de actualización: ${updatedDate}\n`
+  }
+
+  return message
 }
