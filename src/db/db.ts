@@ -68,11 +68,13 @@ export const getByColumn = async (
     const dataArray = Array.isArray(data) ? data : [data]
 
     const whereClause = columnsArray
-      .map((column, index) => `${column} = "${dataArray[index]}"`)
+      .map((column, index) => `${column} = ${dataArray[index]}`)
       .join(" AND ")
 
+    const query = `SELECT * FROM ${tableName} WHERE ${whereClause};`;
+
     const client = await db.connect()
-    const { rows } = await client.query(`SELECT * FROM ${tableName} WHERE ${whereClause};`)
+    const { rows } = await client.query(query)
 
     debug(`${tableName} got`)
     return rows
