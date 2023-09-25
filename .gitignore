@@ -17,9 +17,12 @@
 .env*
 !.env-sample
 
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 package-lock.json
+yarn.lock
 
+# Vercel config
 .vercel

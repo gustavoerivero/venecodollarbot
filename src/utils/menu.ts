@@ -80,7 +80,5 @@ export const menu = (): string => {
     menuString += `${item.command} - ${item.description}\n`
   })
 
-  menuString += "\nLos datos obtenidos por el bot provienen de www.monitordolarvenezuela.com.\n"
-
   return menuString
 }

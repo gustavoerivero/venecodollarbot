@@ -15,7 +15,8 @@ import {
   list,
   euro,
   calculateEuro,
-  entityEuro
+  entityEuro,
+  hiThere
 } from "./commands"
 
 import { development, production } from "./core"
@@ -33,6 +34,8 @@ bot.command("start", start())
 bot.command("help", help())
 
 bot.command("dolar", dollar())
+
+bot.command("hi", hiThere())
 
 bot.command("euro", euro())
 
