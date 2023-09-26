@@ -3,7 +3,8 @@ import { cronVercel } from "../../src";
 
 export default async function handle(req: VercelRequest, res: VercelResponse) {
   try {
-    await cronVercel();
+    const users = await cronVercel();
+    console.info("Active users:", users);
   } catch (e: any) {
     res.statusCode = 500;
     res.setHeader("Content-Type", "text/html");

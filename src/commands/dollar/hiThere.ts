@@ -40,12 +40,12 @@ export const hiThere = () => async (ctx: Context) => {
 
     message += `\n*Promedio general: Bs. ${average(data)}*`;
 
-    debug(`Triggered "${COMMAND}" with message: ${message}`);    
+    debug(`Triggered "${COMMAND}" with message: ${message}`);
 
     await ctx.replyWithPhoto(input, {
       caption: message,
-      parse_mode: "MarkdownV2"
-    })
+      parse_mode: "Markdown"
+    });
 
   } catch (error: any) {
 
