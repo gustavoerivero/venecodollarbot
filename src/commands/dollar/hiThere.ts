@@ -49,17 +49,7 @@ export const hiThere = () => async (ctx: Context) => {
 
     debug(`Triggered "${COMMAND}"`);
 
-    await ctx.sendPhoto(input, {
-      parse_mode: "Markdown",
-      caption: message
-    }).catch((err) => {
-      const firstName = ctx.message?.from.first_name ?? "";
-      const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${err}`;
-
-      ctx.replyWithMarkdownV2(message, {
-        parse_mode: "Markdown"
-      }).then(() => console.log("Gucci"));
-    });
+    await ctx.sendPhoto(input);
 
     return;
 
