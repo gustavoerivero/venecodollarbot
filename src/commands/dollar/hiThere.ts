@@ -6,6 +6,7 @@ import { dateFormatter, getDate } from "../../utils"
 import { average } from "../../utils/template/template"
 
 const COMMAND = "image";
+const LOGO = process.env.LOGO;
 
 const debug = createDebug(`bot:${COMMAND}`);
 
@@ -48,7 +49,7 @@ export const hiThere = () => async (ctx: Context) => {
 
     debug(`Triggered "${COMMAND}"`);
 
-    await ctx.replyWithPhoto(input, {
+    await ctx.replyWithPhoto(LOGO ?? "", {
       caption: message,
       parse_mode: "Markdown"
     });
