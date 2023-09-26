@@ -3,7 +3,7 @@ import createDebug from "debug"
 import DollarAPI from "../../api/dollar/DollarAPI"
 import imageGenerator from "../../utils/htmlToImage"
 import { dateFormatter, getDate } from "../../utils"
-import { LENGTH } from "../../utils/template/template"
+import { average } from "../../utils/template/template"
 
 const COMMAND = "image";
 
@@ -44,17 +44,7 @@ export const hiThere = () => async (ctx: Context) => {
 
     const input = Input.fromBuffer(image, "Image");
 
-    let average = 0;
-
-    for (let index = 0; index < LENGTH; index++) {
-      if (data.entities[index].info.title.toLowerCase() !== "petro") {
-        average += data.entities[index].info.dollar ?? 0;
-      }
-    }
-
-    average = average / (LENGTH - 1);
-
-    message += `\n*Promedio general: Bs. ${average.toFixed(2)}*`;
+    message += `\n*Promedio general: Bs. ${average(data)}*`;
 
     debug(`Triggered "${COMMAND}"`);
 

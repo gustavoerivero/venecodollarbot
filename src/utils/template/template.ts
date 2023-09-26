@@ -3,7 +3,6 @@ import { dateFormatter, locale } from "../formatters";
 
 export const LENGTH = 6;
 const date = dateFormatter();
-const logo = "https://github.com/gustavoerivero/venecodollarbot/blob/main/assets/goose-removebg.png?raw=true";
 
 export const html = (data: TData) => `
   <html>
@@ -11,12 +10,12 @@ export const html = (data: TData) => `
       ${css()}
     </head>
     <body>
-      <img class="logo text-center" src="${logo}" alt="Venecodollar logo" />
+      <img class="logo text-center" src="${logo}" alt="${bot} logo" />
       <h1 class="text-center title">
-        Venecodollar
+        ${name}
       </h1>
       <h4 class="text-center">
-        <bold>PROMEDIO GENERAL: </bold>Bs. ${format(average(data))}
+        <bold>PROMEDIO GENERAL: </bold>Bs. ${average(data)}
       </h4>
       <h6 class="text-center date">
         ${date}
@@ -29,21 +28,21 @@ export const html = (data: TData) => `
       <footer>
         <p>
           Imagen referencial por 
-          <a target="_blank" href="https://t.me/venecodollarbot">Venecodollar</a>
+          <a target="_blank" href="${telegram}">${bot}</a>
           - Los valores son obtenidos por
-          <a target="_blank" href="https://exchangemonitor.net">https://exchangemonitor.net</a><br />
+          <a target="_blank" href="${source}">${source}</a><br />
           Para visualizar otros proyectos
-          <a target="_blank" href="https://github.com/gustavoerivero">https://github.com/gustavoerivero</a>
+          <a target="_blank" href="${git}">${git}</a>
         </p>
       </footer>
     </body>
   </html>
 `;
 
-const average = (data: TData) => {
+export const average = (data: TData) => {
   let average = 0;
   if (!data.entities) {
-    return 0;
+    return format(0);
   }
 
   for (let index = 0; index < LENGTH; index++) {
@@ -52,7 +51,7 @@ const average = (data: TData) => {
     }
   }
 
-  return average / (LENGTH - 1);
+  return format(average / (LENGTH - 1));
 
 };
 
@@ -218,3 +217,10 @@ const css = () => `
 
   </style>
 `;
+
+const name = process.env.NAME;
+const bot = process.env.BOT_NAME;
+const logo = process.env.LOGO;
+const source = process.env.SOURCE;
+const telegram = process.env.TELEGRAM;
+const git = process.env.GIT;
