@@ -2,8 +2,12 @@ import { Context, Input } from "telegraf"
 import createDebug from "debug"
 import DollarAPI from "../../api/dollar/DollarAPI"
 import imageGenerator from "../../utils/htmlToImage"
+import { dateFormatter, getDate } from "../../utils"
+import { LENGTH } from "../../utils/template/template"
 
-const debug = createDebug("bot:image")
+const COMMAND = "image";
+
+const debug = createDebug(`bot:${COMMAND}`);
 
 export const hiThere = () => async (ctx: Context) => {
 
@@ -13,6 +17,22 @@ export const hiThere = () => async (ctx: Context) => {
 
     const response = await dollarAPI.get()
     const data = response.data.Data
+
+    const { dayWeek } = getDate(new Date()) ?? ""
+    const date = dateFormatter();
+
+    if (!data.entities) {
+      const firstName = ctx.message?.from.first_name ?? "";
+      const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲`;
+
+      await ctx.replyWithMarkdownV2(message, {
+        parse_mode: "Markdown"
+      });
+
+      return;
+    }
+
+    let message = `*Venecodollar*\nValores del dólar al ${dayWeek.toLowerCase()} ${date}\n`
 
     let image = await imageGenerator(data);
 
@@ -24,18 +44,35 @@ export const hiThere = () => async (ctx: Context) => {
 
     const input = Input.fromBuffer(image, "Image");
 
-    debug(`Triggered "hi"`)
+    let average = 0;
 
-    await ctx.replyWithPhoto(input);
+    for (let index = 0; index < LENGTH; index++) {
+      if (data.entities[index].info.title.toLowerCase() !== "petro") {
+        average += data.entities[index].info.dollar ?? 0;
+      }
+    }
+
+    average = average / (LENGTH - 1);
+
+    message += `\n*Promedio general: Bs. ${average.toFixed(2)}*`;
+
+    debug(`Triggered "${COMMAND}"`);
+
+    await ctx.replyWithPhoto(input, {
+      caption: message,
+      parse_mode: "Markdown"
+    });
 
   } catch (error: any) {
 
-    const firstName = ctx.message?.from.first_name ?? ""    
-    const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`
+    const firstName = ctx.message?.from.first_name ?? "";
+    const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`;
 
     await ctx.replyWithMarkdownV2(message, {
       parse_mode: "Markdown"
-    })
+    });
+
+    return;
   }
 
 }
