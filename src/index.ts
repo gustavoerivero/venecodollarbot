@@ -35,8 +35,6 @@ bot.command("help", help())
 
 bot.command("dolar", dollar())
 
-bot.command("hi", hiThere())
-
 bot.command("euro", euro())
 
 bot.command("avisos", ctx => alert(ctx))
@@ -47,17 +45,23 @@ bot.on("text", async ctx => {
   const { text } = ctx.message
   const [command, param1, param2, param3] = text.split(" ")
 
-  if (param1) {
+  if (command === "/hi" && !param1) {
+    await hiThere(ctx);
+    return;
+  } else if (param1) {
 
     await commandWithParams(ctx, text, command, param1, param2, param3)
+    return;
 
   } else if (command.startsWith("/detalle")) {
 
-    await detail(ctx)
+    await detail(ctx);
+    return;
 
   } else {
 
     await unknown(ctx, text)
+    return;
 
   }
 })

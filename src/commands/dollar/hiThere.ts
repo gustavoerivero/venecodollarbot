@@ -10,7 +10,7 @@ const NAME = process.env.NAME;
 
 const debug = createDebug(`bot:${COMMAND}`);
 
-export const hiThere = () => async (ctx: Context) => {
+export const hiThere = async (ctx: Context) => {
 
   try {
 
@@ -21,10 +21,6 @@ export const hiThere = () => async (ctx: Context) => {
 
     const { dayWeek } = getDate(new Date()) ?? "";
     const date = dateFormatter();
-
-    if (!data.entities) {
-      return;
-    }
 
     let message = `*${NAME}*\nValores del dólar al ${dayWeek.toLowerCase()} ${date}\n`
 
@@ -42,7 +38,7 @@ export const hiThere = () => async (ctx: Context) => {
 
     debug(`Triggered "${COMMAND}" with message: ${message}`);
 
-    return await ctx.replyWithPhoto(input, {
+    await ctx.replyWithPhoto(input, {
       caption: message,
       parse_mode: "Markdown"
     });
@@ -52,7 +48,7 @@ export const hiThere = () => async (ctx: Context) => {
     const firstName = ctx.message?.from.first_name ?? "";
     const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${error}`;
 
-    return await ctx.replyWithMarkdownV2(message, {
+    await ctx.replyWithMarkdownV2(message, {
       parse_mode: "Markdown"
     });
   }
