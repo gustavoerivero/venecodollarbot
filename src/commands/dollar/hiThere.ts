@@ -6,7 +6,7 @@ import { dateFormatter, getDate } from "../../utils"
 import { average } from "../../utils/template/template"
 
 const COMMAND = "image";
-const LOGO = process.env.LOGO;
+const NAME = process.env.NAME;
 
 const debug = createDebug(`bot:${COMMAND}`);
 
@@ -33,7 +33,7 @@ export const hiThere = () => async (ctx: Context) => {
       return;
     }
 
-    let message = `*Venecodollar*\nValores del dólar al ${dayWeek.toLowerCase()} ${date}\n`
+    let message = `*${NAME}*\nValores del dólar al ${dayWeek.toLowerCase()} ${date}\n`
 
     let image = await imageGenerator(data);
 
@@ -49,10 +49,19 @@ export const hiThere = () => async (ctx: Context) => {
 
     debug(`Triggered "${COMMAND}"`);
 
-    await ctx.replyWithPhoto(LOGO ?? "", {
-      caption: message,
-      parse_mode: "Markdown"
+    await ctx.sendPhoto(input, {
+      parse_mode: "Markdown",
+      caption: message
+    }).catch((err) => {
+      const firstName = ctx.message?.from.first_name ?? "";
+      const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲\n\n${err}`;
+
+      ctx.replyWithMarkdownV2(message, {
+        parse_mode: "Markdown"
+      }).then(() => console.log("Gucci"));
     });
+
+    return;
 
   } catch (error: any) {
 
