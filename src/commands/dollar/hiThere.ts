@@ -19,17 +19,10 @@ export const hiThere = () => async (ctx: Context) => {
     const response = await dollarAPI.get()
     const data = response.data.Data
 
-    const { dayWeek } = getDate(new Date()) ?? ""
+    const { dayWeek } = getDate(new Date()) ?? "";
     const date = dateFormatter();
 
     if (!data.entities) {
-      const firstName = ctx.message?.from.first_name ?? "";
-      const message = `${firstName} tenemos una muy mala noticia, y es que no fue posible obtener los valores del dólar 🥲`;
-
-      await ctx.replyWithMarkdownV2(message, {
-        parse_mode: "Markdown"
-      });
-
       return;
     }
 
@@ -47,11 +40,9 @@ export const hiThere = () => async (ctx: Context) => {
 
     message += `\n*Promedio general: Bs. ${average(data)}*`;
 
-    debug(`Triggered "${COMMAND}"`);
+    debug(`Triggered "${COMMAND}" with message: ${message}`);
 
     await ctx.sendPhoto(input);
-
-    return;
 
   } catch (error: any) {
 
@@ -61,8 +52,6 @@ export const hiThere = () => async (ctx: Context) => {
     await ctx.replyWithMarkdownV2(message, {
       parse_mode: "Markdown"
     });
-
-    return;
   }
 
 }
