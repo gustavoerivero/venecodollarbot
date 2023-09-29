@@ -29,10 +29,8 @@ const production = async (
   }
 
   if (req.method === "POST") {
-    res.setHeader("Content-Type", "image/png");
     await bot.handleUpdate(req.body as unknown as Update, res);
   } else {
-    res.setHeader("Content-Type", "text/html");
     res.status(200).json(`Listening to bot events...`);
   }
   
