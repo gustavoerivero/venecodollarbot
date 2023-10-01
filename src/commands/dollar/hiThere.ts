@@ -34,7 +34,7 @@ export const hiThere = async (ctx: Context) => {
 
     const input = Input.fromBuffer(image, "Image");
 
-    message += `\n*Promedio general: Bs. ${average(data)}*`;
+    message += `\n*Promedio general: Bs. ${data.average}*`;
 
     debug(`Triggered "${COMMAND}" with message: ${message}`);
 

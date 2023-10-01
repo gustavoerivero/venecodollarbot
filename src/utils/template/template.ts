@@ -15,7 +15,7 @@ export const html = (data: TData) => `
         ${name}
       </h1>
       <h4 class="text-center">
-        <bold>PROMEDIO GENERAL: </bold>Bs. ${average(data)}
+        <bold>PROMEDIO GENERAL: </bold>Bs. ${data.average}
       </h4>
       <h6 class="text-center date">
         ${date}
@@ -41,6 +41,7 @@ export const html = (data: TData) => `
 
 export const average = (data: TData) => {
   let average = 0;
+
   if (!data.entities) {
     return format(0);
   }
@@ -70,7 +71,7 @@ const card = (data: TData) => {
         <h5>
           ${item.info?.title}
         </h5>
-        <img src="${item.info?.image}" alt="${item.info?.title}" />
+        <img src="${item.info?.image}" alt="${item.info?.title}" height="25%" width="25%" />
         <p class="dollar"><sup>Bs.</sup>${format(item.info?.dollar)}</p>
         <ul class="features-list">
           <li><strong>Fecha de actualización: </strong><small>${item.info?.updatedDate}</small></li>
