@@ -1,128 +1,111 @@
-import { CronJob } from "cron"
-import { Context, Telegraf } from "telegraf"
-import { Update } from "telegraf/typings/core/types/typegram"
-import createDebug from "debug"
+import { CronJob } from 'cron';
+import { Context, Telegraf } from 'telegraf';
+import { Update } from 'telegraf/typings/core/types/typegram';
+import createDebug from 'debug';
 
-import DollarAPI from "../api/dollar/DollarAPI"
-import { getByColumn } from "../db"
-import { TEntity, TUserBD } from "../types"
-import { dateFormatter, getDate } from "../utils"
+import DollarAPI from '../api/dollar/DollarAPI';
+import { getByColumn } from '../db';
+import { TEntity, TUserBD } from '../types';
+import { dateFormatter, getDate } from '../utils';
 
-export const timezone = process.env.TIMEZONE ?? ""
-export const locale = process.env.LOCALE ?? ""
+export const timezone = process.env.TIMEZONE ?? '';
+export const locale = process.env.LOCALE ?? '';
 
-const debug = createDebug("bot:cronjob")
+const debug = createDebug('bot:cronjob');
 
 export const sendDailyMessages = async (bot: Telegraf<Context<Update>>) => {
-
-  let resp: TUserBD[] = []
+  const resp: TUserBD[] = [];
 
   try {
+    const message = await getDollarValues();
 
-    const message = await getDollarValues()
-
-    const users = await getByColumn("Users", "alertStatus", "true")
+    const users = await getByColumn('Users', 'alertStatus', 'true');
 
     if (users && users.length > 0) {
       for (const user of users) {
         if (user?.chatid && message) {
           try {
             await bot.telegram.sendMessage(user.chatid, message, {
-              parse_mode: "Markdown"
-            })
-            resp.push(user)
-            debug('Triggered "cronjob"')
+              parse_mode: 'Markdown',
+            });
+            resp.push(user);
+            debug('Triggered "cronjob"');
           } catch (error) {
-            console.log("Sending schedule error: ", error)
-            debug(`Cronjob error: ${error}`)
+            console.log('Sending schedule error: ', error);
+            debug(`Cronjob error: ${error}`);
           }
         }
       }
     }
 
-    return resp
-
+    return resp;
+  } catch (error) {
+    debug('Error: ', error);
+    console.log('Cronjob error: ', error);
   }
-  catch (error) {
-    debug("Error: ", error)
-    console.log("Cronjob error: ", error)
-  }
-
-}
+};
 
 const scheduleFunction = (bot: Telegraf<Context<Update>>) => {
-  sendDailyMessages(bot)
-    .catch(err => console.log(err))
-}
+  sendDailyMessages(bot).catch((err) => console.log(err));
+};
 
 export const scheduleCronJob = (bot: Telegraf<Context<Update>>) => {
+  const cronTime = process.env.CRON_TIME ?? '0 9,13 * * 1-5';
 
-  const cronTime = process.env.CRON_TIME ?? "0 9,13 * * 1-5"
+  const job = new CronJob(cronTime, () => scheduleFunction(bot), null, true, timezone);
 
-  const job = new CronJob(
-    cronTime,
-    () => scheduleFunction(bot),
-    null,
-    true,
-    timezone
-  )
-
-  job.start()
-
-}
+  job.start();
+};
 
 const getDollarValues = async () => {
   try {
+    const dollarAPI: DollarAPI = new DollarAPI();
 
-    const dollarAPI: DollarAPI = new DollarAPI()
+    const { dayWeek } = getDate(new Date()) ?? '';
+    const date = dateFormatter();
 
-    const { dayWeek } = getDate(new Date()) ?? ""
-    const date = dateFormatter()
+    let message = `*Valores del dólar al ${dayWeek.toLowerCase()} ${date}*\n`;
 
-    let message = `*Valores del dólar al ${dayWeek.toLowerCase()} ${date}*\n`
-
-    const response = await dollarAPI.get()
-    const data = response.data.Data
+    const response = await dollarAPI.get();
+    const data = response.data.Data;
 
     if (data.entities) {
-
-      const { entities, average } = data
+      const { entities, average } = data;
 
       for (const entity of entities) {
-        message += entityMessage(entity)
+        message += entityMessage(entity);
       }
 
-      message += `\n*Promedio general: Bs. ${average}*`
+      message += `\n*Promedio general: Bs. ${average}*`;
 
-      return message
-
+      return message;
     }
-  } catch (error) {
-    return "Lo lamento, pero no pudimos obtener los valores del dólar 😔."
+  } catch (error: unknown) {
+    return `Lo lamento, pero no pudimos obtener los valores del dólar 😔.\n${error}`;
   }
-}
+};
 
 const entityMessage = (entity: TEntity) => {
-  let message = ""
-  const name = entity.info.title.split("@")
-  const title = name[1] ? name[1] : name[0]
-  const dollar = entity.info.dollar
-  const updatedDate = entity.info.updatedDate
+  let message = '';
+  const name = entity.info.title.split('@');
+  const title = name[1] ? name[1] : name[0];
+  const dollar = entity.info.dollar;
+  const updatedDate = entity.info.updatedDate;
 
-  let percentage = entity.info.differencePercentage
-  let tendency = ""
+  const percentage = entity.info.differencePercentage;
+  let tendency = '';
 
-  if (entity.info.tendencyColor === "green") {
-    tendency = percentage + " 📈"
-  } else if (entity.info.tendencyColor === "red") {
-    tendency = "-" + percentage + " 📉"
+  if (entity.info.tendencyColor === 'green') {
+    tendency = percentage + ' 📈';
+  } else if (entity.info.tendencyColor === 'red') {
+    tendency = '-' + percentage + ' 📉';
   } else {
-    tendency = percentage + " 🟰"
+    tendency = percentage + ' 🟰';
   }
 
   if (dollar && dollar > 0) {
-    message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nTendencia: ${tendency}\nFecha de actualización: ${updatedDate}\n`
+    message += `\n- *${title}* -\nDólar: Bs. ${dollar}\nTendencia: ${tendency}\nFecha de actualización: ${updatedDate}\n`;
   }
 
-  return message
-}
+  return message;
+};

@@ -1,19 +1,19 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "target": "esnext",
+    "incremental": true,
+    "target": "ESNext",
     "moduleResolution": "node",
-    "module": "commonjs",
-    "skipLibCheck": true,
-    "sourceMap": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "module": "CommonJS",
+    "declaration": true,
     "outDir": "public",
-    "lib": [
-      "esnext",
-      "dom"
-    ],
-    "resolveJsonModule": true
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es2017", "es7", "es6", "ESNext", "dom"]
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "public", "**/*/*.test.*"]
 }

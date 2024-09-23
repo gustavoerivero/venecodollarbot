@@ -1,5 +1,5 @@
-import { TData } from "../../types";
-import { dateFormatter, locale } from "../formatters";
+import { TData } from '../../types';
+import { dateFormatter, locale } from '../formatters';
 
 export const LENGTH = 6;
 const date = dateFormatter();
@@ -47,13 +47,12 @@ export const average = (data: TData) => {
   }
 
   for (let index = 0; index < LENGTH; index++) {
-    if (data.entities[index].info.title.toLowerCase() !== "petro") {
+    if (data.entities[index].info.title.toLowerCase() !== 'petro') {
       average += data.entities[index].info.dollar ?? 0;
     }
   }
 
   return format(average / (LENGTH - 1));
-
 };
 
 const format = (number?: number) => new Intl.NumberFormat(locale, { maximumFractionDigits: 2 }).format(number ?? 0);
@@ -65,7 +64,9 @@ const card = (data: TData) => {
 
   const entities = data.entities.slice(0, LENGTH);
 
-  return entities.map(item => `
+  return entities
+    .map(
+      (item) => `
     <div class="dollar-box-container">
       <div class="dollar-box text-center">
         <h5>
@@ -75,12 +76,18 @@ const card = (data: TData) => {
         <p class="dollar"><sup>Bs.</sup>${format(item.info?.dollar)}</p>
         <ul class="features-list">
           <li><strong>Fecha de actualización: </strong><small>${item.info?.updatedDate}</small></li>
-          <li><strong>Diferencia: </strong><small>Bs.</small> <small class="${item.info.tendencyColor}">${item.info.tendencyColor === "red" ? "-" : ""}${format(item.info.difference)}</small></li>
-          <li><strong>Porcentaje: </strong><small class="${item.info.tendencyColor}">${item.info.tendencyColor === "red" ? "-" : ""}${item.info.differencePercentage}</small></li>
+          <li><strong>Diferencia: </strong><small>Bs.</small> <small class="${item.info.tendencyColor}">${
+        item.info.tendencyColor === 'red' ? '-' : ''
+      }${format(item.info.difference)}</small></li>
+          <li><strong>Porcentaje: </strong><small class="${item.info.tendencyColor}">${
+        item.info.tendencyColor === 'red' ? '-' : ''
+      }${item.info.differencePercentage}</small></li>
         </ul>
       </div>
     </div>
-  `).join("");
+  `,
+    )
+    .join('');
 };
 
 const css = () => `

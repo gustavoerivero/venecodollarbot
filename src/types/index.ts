@@ -1,7 +1,7 @@
 export type TDate = {
-  dayWeek: string; 
-  day: number; 
-  month: string; 
+  dayWeek: string;
+  day: number;
+  month: string;
   year: number;
 };
 
@@ -15,7 +15,7 @@ export type TEntity = {
 
 export type TEntityInfo = {
   title: string;
-  euro?: number
+  euro?: number;
   dollar?: number;
   updatedDate: string;
   image?: string;
@@ -23,7 +23,7 @@ export type TEntityInfo = {
   differencePercentage?: string;
   tendency?: string;
   tendencyColor?: string;
-}
+};
 
 export type TData = {
   date?: string;
@@ -34,7 +34,7 @@ export type TData = {
   dollarCalculated?: number;
   euroCalculated?: number;
   bolivarCalculated?: number;
-}
+};
 
 export type TResponseData = {
   OK: number;

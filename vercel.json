@@ -8,16 +8,6 @@
       "permanent": false
     }
   ],
-  "rewrites": [
-    {
-      "source": "/api/cron",
-      "destination": "api/cron/index.ts"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "api/index.ts"
-    }
-  ],
   "crons": [
     {
       "path": "/api/cron",

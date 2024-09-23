@@ -1,9 +1,6 @@
 # dependencies
 /node_modules
 
-# environment variables
-.env
-
 # testing
 /coverage
 
@@ -14,8 +11,7 @@
 
 # misc
 .DS_Store
-.env*
-!.env-sample
+.env
 
 # logs
 npm-debug.log*
